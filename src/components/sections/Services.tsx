@@ -3,9 +3,9 @@ import {
   FileText, 
   GraduationCap, 
   Shield, 
-
-  CheckCircle
 } from 'lucide-react';
+import SectionTitle from '../ui/SectionTitle';
+import { PiCheckLight } from 'react-icons/pi';
 
 const Services = () => {
   const services = [
@@ -13,89 +13,80 @@ const Services = () => {
       icon: <Plane className="w-8 h-8 text-primary-600" />,
       title: "ভ্রমণ ও ভিসা সেবা",
       titleEn: "Travel & Visa Services",
-      items: [
-        "বিমানের টিকেট",
-        "ইন্ডিয়ান ভিসা আবেদন",
-        "ভিসা চেক (সৌদি, দুবাই, কাতার, সিঙ্গাপুর, মালয়েশিয়া, কুয়েত, ওমান, বাহরাইন, তুরস্ক ইত্যাদি)",
-        "ওয়ার্ক পারমিট চেক"
-      ]
+      description: "আমরা আপনার ভ্রমণ ও ভিসা সেবা প্রদান করি আপনার সকল প্রয়োজনের জন্য বিশ্বস্ত ও দ্রুত সেবা প্রদান করি ",
+      items: ["বিমানের টিকেট", "ইন্ডিয়ান ভিসা আবেদন", "ভিসা চেক", "ওয়ার্ক পারমিট চেক"],
+      image: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     },
     {
       icon: <FileText className="w-8 h-8 text-primary-600" />,
       title: "পাসপোর্ট, ভোটার ও নিবন্ধন সেবা",
       titleEn: "Passport, Voter & Registration Services",
-      items: [
-        "ই-পাসপোর্ট আবেদন",
-        "নতুন ভোটার আইডি ও সংশোধন",
-        "জন্ম নিবন্ধন ও সংশোধন"
-      ]
+      description: "আমরা আপনার পাসপোর্ট, ভোটার ও নিবন্ধন সেবা প্রদান করি আপনার সকল প্রয়োজনের জন্য বিশ্বস্ত ও দ্রুত সেবা প্রদান করি ",
+      items: ["ই-পাসপোর্ট আবেদন", "ভোটার আইডি", "জন্ম নিবন্ধন"],
+      image: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     },
     {
       icon: <Shield className="w-8 h-8 text-primary-600" />,
       title: "অন্যান্য সরকারি সেবা",
       titleEn: "Other Government Services",
-      items: [
-        "পুলিশ ক্লিয়ারেন্স",
-        "ড্রাইভিং লাইসেন্স",
-        "TIN, VAT/BIN রেজিস্ট্রেশন, অনলাইন চালান",
-        "জমির খাজনা, রেলওয়ে টিকেট",
-        "ফার্মাসিস্ট/ইলেকট্রিক লাইসেন্স আবেদন"
-      ]
+      description: "আমরা আপনার অন্যান্য সরকারি সেবা প্রদান করি আপনার সকল প্রয়োজনের জন্য বিশ্বস্ত ও দ্রুত সেবা প্রদান করি ",
+      items: ["পুলিশ ক্লিয়ারেন্স", "ড্রাইভিং লাইসেন্স", "TIN, VAT/BIN", "জমির খাজনা"],
+      image: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     },
     {
       icon: <GraduationCap className="w-8 h-8 text-primary-600" />,
       title: "শিক্ষা ও চাকরি সেবা",
       titleEn: "Education & Job Services",
-      items: [
-        "স্কুল/কলেজ/বিশ্ববিদ্যালয় ভর্তি",
-        "সরকারি-বেসরকারি চাকরির আবেদন",
-        "ইউরোপিয়ান সিভি/বায়োডাটা তৈরি ও ছবি তোলা"
-      ]
+      description: "আমরা আপনার শিক্ষা ও চাকরি সেবা প্রদান করি আপনার সকল প্রয়োজনের জন্য বিশ্বস্ত ও দ্রুত সেবা প্রদান করি ",
+      items: ["ভর্তি", "চাকরির আবেদন", "সিভি তৈরি"],
+      image: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
     }
   ];
 
   return (
-    <section id="services" className="py-20 bg-gray-50">
+    <section id="services" className="bg-gray-50 py-16">
+      <SectionTitle title="আমাদের সেবাসমূহ" subtitle="আমরা আপনার সকল প্রয়োজনের জন্য বিশ্বস্ত ও দ্রুত সেবা প্রদান করি" />
       <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4 bengali">আমাদের সেবাসমূহ</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto bengali">
-            আমরা আপনার সকল প্রয়োজনের জন্য বিশ্বস্ত ও দ্রুত সেবা প্রদান করি
-          </p>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-8 mb-16">
+        <div className="grid md:grid-cols-4 gap-8 mb-16">
           {services.map((service, index) => (
-            <div key={index} className="service-card">
-              <div className="flex items-center mb-6">
-                <div className="bg-primary-100 p-3 rounded-full mr-4">
-                  {service.icon}
-                </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-800 bengali mb-1">
-                    {service.title}
-                  </h3>
-                  <p className="text-sm text-gray-500">{service.titleEn}</p>
-                </div>
-              </div>
-              
-              <ul className="space-y-3">
-                {service.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="flex items-start">
-                    <CheckCircle className="w-5 h-5 text-green-500 mr-3 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700 bengali">{item}</span>
+            <div 
+              key={index} 
+              className="relative group bg-white  overflow-hidden cursor-pointer transition-transform hover:-translate-y-1 hover:shadow-xl"
+            >
+             <div className="relative z-10 transition-opacity duration-300 group-hover:opacity-0 rounded-t-md">
+             <img src={service.image} alt={service.title} className="w-full h-[200px] object-cover rounded-t-md" />
+             </div>
+
+             <div className="p-6">
+              <h3 className="text-xl font-medium mb-2 text-primary">{service.title}</h3>
+              <p className="text-gray-600 mb-4">{service.description}</p>
+              <ul className="space-y-2 text-gray-600">
+                {service.items.map((item, index) => (
+                  <li key={index} className="flex items-center gap-2">
+                    <PiCheckLight className="w-5 h-5 text-primary" />
+                    <span>{item}</span>
                   </li>
                 ))}
               </ul>
+            </div>
+              {/* Hover Overlay with Description */}
+              <div className="absolute inset-0 flex flex-col   items-center justify-center text-center px-6 bg-primary text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <p className="text-lg leading-relaxed bengali">{service.description}</p>
+                <div>
+                  <button className="bg-white text-primary hover:bg-gray-100 font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2">
+                    <span className="bengali">বিস্তার করুন</span>
+                  </button>
+                </div>
+              </div>
             </div>
           ))}
         </div>
 
         {/* Call to Action */}
-        <div className="bg-primary-600 rounded-2xl p-8 text-center text-white">
+        <div className="bg-primary rounded-2xl p-8 text-center text-white">
           <h3 className="text-2xl font-bold mb-4 bengali">আজই যোগাযোগ করুন!</h3>
           <p className="text-lg mb-6 bengali">আপনার প্রয়োজনীয় সেবার জন্য আমাদের সাথে কথা বলুন</p>
-          <a href="#contact" className="bg-white text-primary-600 hover:bg-gray-100 font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2">
+          <a href="#contact" className="bg-white text-primary hover:bg-gray-100 font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2">
             <span className="bengali">যোগাযোগ করুন</span>
           </a>
         </div>
