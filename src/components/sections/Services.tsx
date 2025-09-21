@@ -5,7 +5,8 @@ import {
   Shield, 
 } from 'lucide-react';
 import SectionTitle from '../ui/SectionTitle';
-import { PiCheckLight } from 'react-icons/pi';
+import { PiArrowRightLight, PiCheckLight } from 'react-icons/pi';
+import { Link } from 'react-router-dom';
 
 const Services = () => {
   const services = [
@@ -81,15 +82,13 @@ const Services = () => {
             </div>
           ))}
         </div>
-
-        {/* Call to Action */}
-        <div className="bg-primary rounded-2xl p-8 text-center text-white">
-          <h3 className="text-2xl font-bold mb-4 bengali">আজই যোগাযোগ করুন!</h3>
-          <p className="text-lg mb-6 bengali">আপনার প্রয়োজনীয় সেবার জন্য আমাদের সাথে কথা বলুন</p>
-          <a href="#contact" className="bg-white text-primary hover:bg-gray-100 font-medium py-3 px-8 rounded-lg transition-colors duration-200 inline-flex items-center gap-2">
-            <span className="bengali">যোগাযোগ করুন</span>
-          </a>
+        <div className="flex justify-end items-center">
+          <Link to="/services">
+          <button className="flex items-center hover:underline gap-2 group text-primary"> আরও দেখুন <PiArrowRightLight size={20} className="group-hover:rotate-45  transition-transform" /></button>
+          </Link>
         </div>
+
+      
       </div>
     </section>
   );
