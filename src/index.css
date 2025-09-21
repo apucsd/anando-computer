@@ -1,0 +1,32 @@
+@import url('https://fonts.maateen.me/tiro-bangla/font.css');@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Tiro Bangla', sans-serif;
+  }
+  
+  .bengali {
+    font-family: 'Noto Sans Bengali', sans-serif;
+  }
+}
+
+@layer components {
+ 
+}
+
+.bg-pattern {
+  background: linear-gradient(135deg, #0f4c75 0%, #3282b8 50%, #bbe1fa 100%);
+  position: relative;
+}
+
+.bg-pattern::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: 
+    radial-gradient(circle at 25% 25%, rgba(255, 215, 0, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 75% 75%, rgba(255, 255, 255, 0.1) 0%, transparent 40%);
+  pointer-events: none;
+}
