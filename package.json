@@ -13,6 +13,7 @@
     "@emailjs/browser": "^4.4.1",
     "@formspree/react": "^3.0.0",
     "@types/slick-carousel": "^1.6.40",
+    "@types/swiper": "^6.0.0",
     "framer-motion": "^12.23.12",
     "install": "^0.13.0",
     "lucide-react": "^0.344.0",

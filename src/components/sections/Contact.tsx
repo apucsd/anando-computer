@@ -37,7 +37,7 @@ const Contact = () => {
         />
         <div>
         
-          <div className="flex justify-center items-center">
+          <div className="flex flex-col lg:flex-row justify-center items-center">
             <div className="flex border border-primary rounded-xl p-6 h-full">
               <div className="p-3 rounded-full mr-4">
                 <Phone className="w-6 h-6 text-primary" />
