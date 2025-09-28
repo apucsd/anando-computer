@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Phone, MapPin, Clock, Send } from "lucide-react";
+import { Phone, MapPin, Clock } from "lucide-react";
 import SectionTitle from "../ui/SectionTitle";
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -105,15 +105,15 @@ const Contact = () => {
               title="Our Location on Google Maps"
             />
           </div>
-          <div className="bg-white rounded-xl shadow-lg p-8">
+          <div className="rounded-xl shadow-lg shadow-primary/20 p-8">
             <h3 className="text-2xl font-bold text-gray-800 mb-6 bengali">
               বার্তা পাঠান
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-gray-700 font-medium mb-2 bengali">
-                  নাম *
+                <label className="block text-primary font-medium mb-2 bengali">
+                  নাম <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -121,14 +121,14 @@ const Contact = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200"
                   placeholder="আপনার নাম লিখুন"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-2 bengali">
-                  ফোন নম্বর *
+                <label className="block text-primary font-medium mb-2 bengali">
+                  ফোন নম্বর <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -136,13 +136,13 @@ const Contact = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200"
                   placeholder="০১৭xxxxxxxx"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-2">
+                <label className="block text-primary font-medium mb-2">
                   ইমেইল
                 </label>
                 <input
@@ -150,22 +150,22 @@ const Contact = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200"
                   placeholder="your@email.com"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-2 bengali">
+                <label className="block text-primary font-medium mb-2 bengali">
                   প্রয়োজনীয় সেবা
                 </label>
                 <select
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200 appearance-none bg-white"
                 >
-                  <option value="" className="bengali">
+                  <option value="" className="text-gray-400 bengali">
                     সেবা নির্বাচন করুন
                   </option>
                   <option value="flight" className="bengali">
@@ -199,25 +199,24 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-medium mb-2 bengali">
-                  বার্তা
+                <label className="block text-primary font-medium mb-2 bengali">
+                  বার্তা <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   name="message"
                   value={formData.message}
                   onChange={handleChange}
                   rows={4}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  className="w-full px-4 py-3 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200"
                   placeholder="আপনার প্রয়োজন সম্পর্কে বিস্তারিত লিখুন..."
                 ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full btn-primary justify-center"
+                className="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-md hover:shadow-lg"
               >
-                <Send className="w-5 h-5" />
-                <span className="bengali">বার্তা পাঠান</span>
+                <span className="bengali text-lg">বার্তা পাঠান</span>
               </button>
             </form>
           </div>
