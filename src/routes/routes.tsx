@@ -4,6 +4,7 @@ import About from "../components/sections/About";
 import Home from "../pages/home/Home";
 import Contact from "../components/sections/Contact";
 import FAQ from "../pages/faq/FAQ";
+import AllServices from "../pages/services/Services";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             { 
                 path: "faq", 
                 element: <FAQ /> 
+            },
+            { 
+                path: "services", 
+                element: <AllServices /> 
             },
         ],
     },
