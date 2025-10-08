@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
+import PageHeader from '../../components/ui/PageHeader';
+import CallToAction from '../../components/sections/CallToAction';
 
 interface FAQItemProps {
   question: string;
@@ -155,6 +157,7 @@ const FAQ = () => {
 
   return (
     <div className="min-h-screen  py-16">
+      <PageHeader title='FAQ' subTitle='Frequently ask questions' />
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -212,28 +215,11 @@ const FAQ = () => {
           </div>
 
           {/* Contact CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-12 text-center"
-          >
-            <div className="bg-gradient-to-r from-primary to-primary/80 rounded-2xl p-8">
-              <h3 className="text-2xl font-medium mb-4">
-                আরও তথ্য চান?
-              </h3>
-              <p className="mb-6 text-lg opacity-90">
-                আপনার কোনো প্রশ্ন থাকলে আমাদের সাথে যোগাযোগ করুন। আমরা সর্বদা সাহায্য করতে প্রস্তুত।
-              </p>
-              <a
-                href="#contact"
-                className="inline-flex items-center px-8 py-3 bg-white text-primary font-medium rounded-lg transition-colors duration-200"
-              >
-                যোগাযোগ করুন
-              </a>
-            </div>
-          </motion.div>
+
         </motion.div>
+      </div>
+      <div className="my-4">
+        <CallToAction />
       </div>
     </div>
   );
