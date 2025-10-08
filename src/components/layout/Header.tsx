@@ -7,7 +7,6 @@ import {
   PiGraduationCapLight,
   PiInfoLight,
   PiBookOpenTextLight,
-  PiUsersLight,
   PiImagesLight,
   PiQuestionLight,
   PiChatsCircleLight,
@@ -65,22 +64,22 @@ const Header = () => {
       ],
     },
     {
-      path: "/about",
+      path: "#",
       label: "আমাদের সম্পর্কে",
       icon: <PiInfoLight size={20} />,
       children: [
         {
-          path: "/about/our-story",
+          path: "/our-story",
           label: "আমাদের সম্পর্কে",
           icon: <PiBookOpenTextLight size={20} />,
         },
+        // {
+        //   path: "/about/our-team",
+        //   label: "আমাদের টিম",
+        //   icon: <PiUsersLight size={20} />,
+        // },
         {
-          path: "/about/our-team",
-          label: "আমাদের টিম",
-          icon: <PiUsersLight size={20} />,
-        },
-        {
-          path: "/about/our-gallery",
+          path: "/our-gallery",
           label: "আমাদের গ্যালারি",
           icon: <PiImagesLight size={20} />,
         },

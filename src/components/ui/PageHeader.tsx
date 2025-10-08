@@ -1,11 +1,7 @@
 import { motion } from 'framer-motion';
-import { ChevronRight, Home } from 'lucide-react';
+import { PiHouseSimpleLight } from 'react-icons/pi';
 import { Link, useLocation } from 'react-router-dom';
 
-type TBreadcrumbItem = {
-  name: string;
-  path: string;
-};
 
 type TPageHeaderProps = {
   title: string;
@@ -48,7 +44,7 @@ const PageHeader = ({ title, subTitle }: TPageHeaderProps) => {
             <ol className="flex items-center space-x-1 md:space-x-3">
               <li>
                 <Link to="/" className="flex items-center text-blue-100 hover:text-white transition-colors">
-                  <Home className="w-4 h-4 mr-2" />
+                  <PiHouseSimpleLight className="w-4 h-4 mr-2" />
                   Home
                 </Link>
               </li>

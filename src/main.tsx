@@ -2,7 +2,6 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-
 // Function to apply theme class before rendering
 const applyInitialTheme = () => {
   const root = document.documentElement;
