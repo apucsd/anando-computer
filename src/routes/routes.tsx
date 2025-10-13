@@ -7,7 +7,8 @@ import ContactPage from "../pages/contact/ContactPage";
 import OurStory from "../pages/about/OurStory";
 import OurGallary from "../pages/gallery/OurGallary";
 import ServiceDetailsPage from "../pages/service-details/ServiceDetailsPage";
-import Login from "../pages/authentication/Login";
+import Login from "../pages/login/Login";
+import AdminLayout from "../components/layout/AdminLayout";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,16 @@ const router = createBrowserRouter([
             }
         ],
     },
+    {
+        path: "/admin",
+        element: <AdminLayout/>,
+        // children: [
+        //     {
+        //         index: true,
+        //         element: <Dashboard/>
+        //     }
+        // ]
+    }
 ]);
 
 export default router;
