@@ -7,6 +7,7 @@ import ContactPage from "../pages/contact/ContactPage";
 import OurStory from "../pages/about/OurStory";
 import OurGallary from "../pages/gallery/OurGallary";
 import ServiceDetailsPage from "../pages/service-details/ServiceDetailsPage";
+import Login from "../pages/authentication/Login";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
             {
                 path: "our-gallery",
                 element: <OurGallary/>
+            },
+            {
+                path: "login",
+                element: <Login/>
             }
         ],
     },

@@ -17,6 +17,7 @@ import {
   PiShieldCheck,
   PiXLight,
   PiListLight,
+  PiUserCheckLight,
 } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
@@ -95,6 +96,12 @@ const Header = () => {
       label: "যোগাযোগ",
       icon: <PiChatsCircleLight size={20} />,
     },
+
+    {
+      path: "/login",
+      label: "লগইন",
+      icon: <PiUserCheckLight size={20} />,
+    }
   ];
 
   return (
