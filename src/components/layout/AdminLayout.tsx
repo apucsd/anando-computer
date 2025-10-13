@@ -1,5 +1,20 @@
-import { Outlet, ScrollRestoration, NavLink } from "react-router-dom";
-import { PiGaugeLight, PiListLight, PiQuestionLight, PiInfoLight, PiImagesLight, PiChatsCircleLight, PiGearLight, PiPaletteLight, PiImageLight } from "react-icons/pi";
+import React from "react";
+import { Outlet, ScrollRestoration, NavLink, useLocation } from "react-router-dom";
+import {
+  Layout,
+  Menu,
+  theme,
+} from "antd";
+import {
+  DashboardOutlined,
+  AppstoreOutlined,
+  PictureOutlined,
+  SettingOutlined,
+  BgColorsOutlined,
+  QuestionCircleOutlined,
+} from "@ant-design/icons";
+
+const { Header, Sider, Content } = Layout;
 
 type AdminNavItem = {
   label: string;
@@ -9,83 +24,123 @@ type AdminNavItem = {
 };
 
 const adminNav: AdminNavItem[] = [
-  { label: "Dashboard", path: "/admin", icon: <PiGaugeLight size={20} /> },
-  { label: "Services", path: "/admin/services", icon: <PiListLight size={20} /> },
- 
-  { label: "About Us", path: "/admin/about", icon: <PiInfoLight size={20} /> },
-  { label: "Gallery", path: "/admin/gallery", icon: <PiImagesLight size={20} /> },
-
-  { label: "Settings", path: "/admin/settings", icon: <PiGearLight size={20} />, children: [
-    { label: "Banner", path: "/admin/settings/banner", icon: <PiImageLight size={18} /> },
-    { label: "Theme Color", path: "/admin/settings/theme", icon: <PiPaletteLight size={18} /> },
-    { label: "FAQ", path: "/admin/faq", icon: <PiQuestionLight size={20} /> },
-    { label: "Contact Info", path: "/admin/contact-info", icon: <PiChatsCircleLight size={20} /> },
-  ]},
+  { label: "Dashboard", path: "/admin", icon: <DashboardOutlined /> },
+  { label: "Services", path: "/admin/services", icon: <AppstoreOutlined /> },
+  // { label: "About Us", path: "/admin/about", icon: <InfoCircleOutlined /> },
+  { label: "Gallery", path: "/admin/gallery", icon: <PictureOutlined /> },
+  {
+    label: "Settings",
+    path: "/admin/settings",
+    icon: <SettingOutlined />,
+    children: [
+      { label: "Banner", path: "/admin/settings/banner", icon: <PictureOutlined /> },
+      { label: "Theme Color", path: "/admin/settings/theme", icon: <BgColorsOutlined /> },
+      { label: "FAQ", path: "/admin/settings/faq", icon: <QuestionCircleOutlined /> },
+    ],
+  },
 ];
 
+const Sidebar: React.FC = () => {
+  const location = useLocation();
 
-const Sidebar = () => {
-
-
+  // Antd Menu expects items in a specific format
+  const menuItems = adminNav.map((item) => {
+    if (item.children) {
+      return {
+        key: item.path,
+        icon: item.icon,
+        label: item.label,
+        children: item.children.map((child) => ({
+          key: child.path,
+          icon: child.icon,
+          label: <NavLink to={child.path}>{child.label}</NavLink>,
+        })),
+      };
+    }
+    return {
+      key: item.path,
+      icon: item.icon,
+      label: <NavLink to={item.path}>{item.label}</NavLink>,
+    };
+  });
 
   return (
-    <aside className="bg-white border-r w-64 min-h-screen flex flex-col py-6 px-3">
-      <nav className="flex-1 space-y-2">
-        {adminNav.map((item) => {
-          const hasChildren = !!item.children && item.children.length > 0;
-          return (
-            <div key={item.label}>
-              <NavLink
-                to={item.path}
-                className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition font-medium hover:bg-primary/10 focus:outline-none ${hasChildren ? 'justify-between' : ''}`}
-                
-              >
-                <span className="flex items-center gap-3">
-                  {item.icon && item.icon}
-                  {item.label}
-                </span>
-                
-              </NavLink>
-              {hasChildren && (
-                <div
-                  className={`ml-7 mt-1 space-y-1 overflow-hidden transition-all duration-200`}
-                >
-                  {item.children?.map((child) => (
-                    <NavLink
-                      key={child.label}
-                      to={child.path}
-                      className={({ isActive }) =>
-                        `block px-3 py-1.5 flex items-center gap-3 rounded hover:bg-primary/10 text-sm transition ${isActive ? 'bg-primary/10 text-primary' : 'text-gray-600'}`
-                      }
-                    >
-                      {child.icon && child.icon} {child.label}
-                    </NavLink>
-                  ))}
-                </div>
-              )}
-            </div>
-          );
-        })}
-      </nav>
-    </aside>
+    <Sider
+      width={230}
+      theme="light"
+      className="shadow-sm"
+      style={{
+        borderRight: "1px solid #f0f0f0",
+      }}
+    >
+      <div
+        style={{
+          height: 64,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontWeight: 600,
+          fontSize: 18,
+          color: "#1677ff",
+          borderBottom: "1px solid #f0f0f0",
+        }}
+      >
+        Admin Panel
+      </div>
+
+      <Menu
+        mode="inline"
+        selectedKeys={[location.pathname]}
+        defaultOpenKeys={adminNav.map((i) => i.path)}
+        items={menuItems}
+        style={{ borderRight: 0, height: "100%" }}
+      />
+    </Sider>
   );
 };
 
-const AdminLayout = () => {
+const AdminLayout: React.FC = () => {
+  const {
+    token: { colorBgContainer },
+  } = theme.useToken();
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Simple Header */}
-      <header className="bg-primary text-white shadow-sm h-14 flex items-center px-8 font-semibold text-lg sticky top-0 z-30">
+    <Layout style={{ minHeight: "100vh" }}>
+      <Header
+        style={{
+          background: "#1677ff",
+          color: "white",
+          fontWeight: 600,
+          fontSize: "1.2rem",
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: 24,
+          boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+          zIndex: 10,
+        }}
+      >
         Admin Dashboard
-      </header>
-      <div className="flex min-h-[calc(100vh-56px)]">
+      </Header>
+
+      <Layout>
         <Sidebar />
-        <main className="flex-1 min-h-screen overflow-x-auto">
-          <Outlet />
-          <ScrollRestoration />
-        </main>
-      </div>
-    </div>
+
+        <Layout style={{ padding: "16px", background: colorBgContainer }}>
+          <Content
+            style={{
+              padding: 24,
+              background: "#fff",
+              borderRadius: 8,
+              boxShadow: "0 1px 4px rgba(0,0,0,0.04)",
+              minHeight: "calc(100vh - 120px)",
+            }}
+          >
+            <Outlet />
+            <ScrollRestoration />
+          </Content>
+        </Layout>
+      </Layout>
+    </Layout>
   );
 };
 

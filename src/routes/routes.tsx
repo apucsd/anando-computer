@@ -10,6 +10,11 @@ import ServiceDetailsPage from "../pages/service-details/ServiceDetailsPage";
 import Login from "../pages/login/Login";
 import AdminLayout from "../components/layout/AdminLayout";
 import Services from "../pages/admin-panel/Services";
+import Banner from "../pages/admin-panel/Banner";
+import ThemeSettings from "../pages/admin-panel/Theme";
+import FAQManager from "../pages/admin-panel/FAQ";
+import Dashboard from "../pages/admin-panel/Dashboard";
+import GalleryManager from "../pages/admin-panel/GallaryManager";
 
 const router = createBrowserRouter([
     {
@@ -54,13 +59,29 @@ const router = createBrowserRouter([
         path: "/admin",
         element: <AdminLayout/>,
         children: [
-            // {
-            //     index: true,
-            //     // element: <Dashboard/>
-            // }
+            {
+                index: true,
+                element: <Dashboard/>
+            },
             {
                 path: "services",
                 element: <Services/>
+            },
+            {
+                path: "settings/banner",
+                element: <Banner/>
+            },
+            {
+                path: "gallery",
+                element: <GalleryManager/>
+            },
+            {
+                path: "settings/theme",
+                element: <ThemeSettings/>
+            },
+            {
+                path: "settings/faq",
+                element: <FAQManager/>
             }
         ]
     }

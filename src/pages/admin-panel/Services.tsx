@@ -1,7 +1,30 @@
 import { useState } from "react";
+import {
+  Button,
+  Table,
+  Modal,
+  Form,
+  Input,
+  Select,
+  Space,
+  Tag,
+  Upload,
+  message,
+} from "antd";
+import { PlusOutlined, EditOutlined, DeleteOutlined, UploadOutlined } from "@ant-design/icons";
 import JoditEditor from "jodit-react";
 
-const initialServices = [
+type Service = {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  features: string[];
+  featured: boolean;
+  image?: File;
+};
+
+const initialServices: Service[] = [
   {
     id: 1,
     name: "ভিসা প্রসেসিং",
@@ -21,208 +44,221 @@ const initialServices = [
 ];
 
 const Services = () => {
-  const [services, setServices] = useState(initialServices);
+  const [services, setServices] = useState<Service[]>(initialServices);
   const [modalOpen, setModalOpen] = useState(false);
-  const [newService, setNewService] = useState({ name: "", description: "", category: "", features: [] as string[], featured: false });
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [form] = Form.useForm();
+  const [editorContent, setEditorContent] = useState("");
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
 
   const handleAdd = () => {
-    setModalOpen(true);
+    form.resetFields();
+    setEditorContent("");
+    setUploadFile(null);
     setEditingId(null);
-    setNewService({ name: "", description: "", category: "", features: [], featured: false });
+    setModalOpen(true);
   };
 
-  const handleEdit = (id: number) => {
-    const svc = services.find(s => s.id === id);
-    if (svc) {
-      setEditingId(id);
-      setNewService({ name: svc.name, description: svc.description, category: svc.category, features: svc.features || [], featured: svc.featured });
-      setModalOpen(true);
+  const handleEdit = (record: Service) => {
+    setEditingId(record.id);
+    form.setFieldsValue({
+      ...record,
+      featured: record.featured ? "true" : "false",
+    });
+    setEditorContent(record.description);
+    setModalOpen(true);
+  };
+
+  const handleDelete = (id: number) => {
+    Modal.confirm({
+      title: "Are you sure?",
+      content: "Do you want to delete this service?",
+      okText: "Yes, Delete",
+      okType: "danger",
+      onOk: () => {
+        setServices((prev) => prev.filter((s) => s.id !== id));
+        message.success("Service deleted");
+      },
+    });
+  };
+
+  const handleSave = async () => {
+    try {
+      const values = await form.validateFields();
+      const newData = {
+        ...values,
+        description: editorContent,
+        image: uploadFile,
+        featured: values.featured === "true",
+      };
+
+      if (editingId) {
+        setServices((prev) =>
+          prev.map((s) => (s.id === editingId ? { ...s, ...newData } : s))
+        );
+        message.success("Service updated successfully");
+      } else {
+        const newService: Service = {
+          ...newData,
+          id: Math.max(0, ...services.map((s) => s.id)) + 1,
+        };
+        setServices((prev) => [...prev, newService]);
+        message.success("Service added successfully");
+      }
+
+      setModalOpen(false);
+    } catch {
+      message.error("Please fill all required fields");
     }
   };
 
-  const handleSave = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (editingId) {
-      setServices(svcs =>
-        svcs.map(s =>
-          s.id === editingId ? { ...s, ...newService } : s
-        )
-      );
-    } else {
-      setServices(svcs => [
-        ...svcs,
-        { ...newService, id: Math.max(0, ...svcs.map(s => s.id)) + 1 },
-      ]);
-    }
-    setModalOpen(false);
-  };
+  const columns = [
+    {
+      title: "#",
+      dataIndex: "id",
+      key: "id",
+      width: 50,
+      render: (_: any, __: any, index: number) => index + 1,
+    },
+    { title: "Name", dataIndex: "name", key: "name" },
+    { title: "Description", dataIndex: "description", key: "description" },
+    { title: "Category", dataIndex: "category", key: "category" },
+    {
+      title: "Features",
+      dataIndex: "features",
+      key: "features",
+      render: (features: string[]) =>
+        features?.map((f, i) => (
+          <Tag color="blue" key={i}>
+            {f}
+          </Tag>
+        )),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_: any, record: Service) => (
+        <Space>
+          <Button
+            type="link"
+            icon={<EditOutlined />}
+            onClick={() => handleEdit(record)}
+          >
+            Edit
+          </Button>
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record.id)}
+          >
+            Delete
+          </Button>
+        </Space>
+      ),
+    },
+  ];
 
   return (
-    <div className="p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Services</h1>
-        <button
+    <div style={{ padding: 24 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+        }}
+      >
+        <h1 style={{ fontSize: 22, fontWeight: 600 }}>Services</h1>
+        <Button
+          type="primary"
+          icon={<PlusOutlined />}
           onClick={handleAdd}
-          className="bg-primary text-white font-semibold py-2 px-5 rounded-lg hover:bg-primary/90 transition"
         >
           Add Service
-        </button>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-white border rounded-lg shadow">
-          <thead>
-            <tr className="bg-primary/10 text-primary">
-              <th className="py-3 px-4 border-b text-left">#</th>
-              <th className="py-3 px-4 border-b text-left">Name</th>
-              <th className="py-3 px-4 border-b text-left">Description</th>
-              <th className="py-3 px-4 border-b text-left">Category</th>
-              <th className="py-3 px-4 border-b text-left">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {services.map((svc, i) => (
-              <tr key={svc.id} className="hover:bg-primary/5">
-                <td className="py-2 px-4 border-b">{i + 1}</td>
-                <td className="py-2 px-4 border-b">{svc.name}</td>
-                <td className="py-2 px-4 border-b">{svc.description}</td>
-                <td className="py-2 px-4 border-b">{svc.category}</td>
-                <td className="py-2 px-4 border-b">
-                  <button
-                    onClick={() => handleEdit(svc.id)}
-                    className="text-primary font-medium hover:underline mr-2"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    
-                    className="text-red-500 font-medium hover:underline"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-            ))}
-            {services.length === 0 && (
-              <tr>
-                <td colSpan={5} className="text-center py-6 text-gray-400">No services found.</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+        </Button>
       </div>
 
-      {/* Modal for Add/Edit */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <form
-            onSubmit={handleSave}
-            className="bg-white rounded-lg shadow-lg p-8 w-full max-w-[50%] max-h-[calc(100vh-56px)] overflow-y-auto   space-y-5 relative"
+      <Table
+        columns={columns}
+        dataSource={services}
+        rowKey="id"
+        bordered
+        pagination={{ pageSize: 5 }}
+      />
+
+      <Modal
+        title={editingId ? "Update Service" : "Add Service"}
+        open={modalOpen}
+        onCancel={() => setModalOpen(false)}
+        width={800}
+        onOk={handleSave}
+        okText={editingId ? "Update" : "Add"}
+      >
+        <Form
+          layout="vertical"
+          form={form}
+          initialValues={{
+            featured: "false",
+          }}
+        >
+          <Form.Item
+            label="Name"
+            name="name"
+            rules={[{ required: true, message: "Please enter name" }]}
           >
-            <h2 className="text-xl font-bold mb-2">{editingId ? "Update Service" : "Add Service"}</h2>
-            <button
-              type="button"
-              onClick={() => setModalOpen(false)}
-              className="absolute top-3 right-3 text-gray-400 hover:text-primary text-2xl"
-              aria-label="Close"
+            <Input placeholder="Enter service name" />
+          </Form.Item>
+
+          <Form.Item
+            label="Category"
+            name="category"
+            rules={[{ required: true, message: "Please enter category" }]}
+          >
+            <Input placeholder="Enter category" />
+          </Form.Item>
+
+          <Form.Item label="Featured" name="featured">
+            <Select>
+              <Select.Option value="true">Featured</Select.Option>
+              <Select.Option value="false">Not Featured</Select.Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item label="Features">
+            <Select
+              mode="tags"
+              tokenSeparators={[","]}
+              placeholder="Type and press Enter"
+              onChange={(vals) =>
+                form.setFieldValue("features", vals as string[])
+              }
+              value={form.getFieldValue("features")}
+            />
+          </Form.Item>
+
+          <Form.Item label="Image">
+            <Upload
+              beforeUpload={(file) => {
+                setUploadFile(file);
+                return false; // prevent auto upload
+              }}
+              maxCount={1}
             >
-              &times;
-            </button>
-            <div>
-              <label className="block mb-1 font-medium">Name</label>
-              <input
-                className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-primary"
-                value={newService.name}
-                onChange={e => setNewService(s => ({ ...s, name: e.target.value }))}
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">Description</label>
-              <textarea
-                className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-primary"
-                value={newService.description}
-                onChange={e => setNewService(s => ({ ...s, description: e.target.value }))}
-                required
-              />
-            </div>
-            <div>
-              <label className="block mb-1 font-medium">Featured</label>
-              <select
-                className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-primary"
-                value={newService.featured ? "true" : "false"}
-                onChange={e => setNewService(s => ({ ...s, featured: e.target.value === "true" }))}
-                required
-              >
-                <option value="true">Featured</option>
-                <option value="false">Not Featured</option>
-              </select>
-            </div>
+              <Button icon={<UploadOutlined />}>Upload Image</Button>
+            </Upload>
+            {uploadFile && (
+              <p style={{ marginTop: 5, fontSize: 12 }}>
+                Selected: {uploadFile.name}
+              </p>
+            )}
+          </Form.Item>
 
-            {/* Features (Creatable Multi-Select) */}
-            <div>
-              <label className="block mb-1 font-medium">Features</label>
-              <div className="flex flex-wrap gap-2 mb-2">
-                {newService.features.map((f, i) => (
-                  <span key={i} className="bg-primary/10 text-primary px-2 py-1 rounded flex items-center gap-1">
-                    {f}
-                    <button
-                      type="button"
-                      className="ml-1 text-xs text-primary hover:text-red-500"
-                      onClick={() => setNewService(s => ({ ...s, features: s.features.filter((_, idx) => idx !== i) }))}
-                    >
-                      ×
-                    </button>
-                  </span>
-                ))}
-              </div>
-              <input
-                type="text"
-                className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-primary"
-                placeholder="Add feature and press Enter"
-                onKeyDown={e => {
-                  const val = (e.target as HTMLInputElement).value.trim();
-                  if ((e.key === 'Enter' || e.key === ',') && val) {
-                    e.preventDefault();
-                    if (!newService.features.includes(val)) {
-                      setNewService(s => ({ ...s, features: [...s.features, val] }));
-                    }
-                    (e.target as HTMLInputElement).value = '';
-                  }
-                }}
-              />
-            </div>
-            
-            {/* image upload */}
-            <div>
-              <label className="block mb-1 font-medium">Image</label>
-              <input
-                type="file"
-                className="w-full border px-4 py-2 rounded focus:ring-2 focus:ring-primary"
-                onChange={e => setNewService(s => ({ ...s, image: e.target.files?.[0] }))}
-                required
-              />
-            </div>
-
-            {/* upload details preview with jodit editor */}
-            <div>
-              <label className="block mb-1 font-medium">Details</label>
-             <JoditEditor
-             value={newService.description}
-             onChange={e => setNewService(s => ({ ...s, description: e }))}
-             />
-            </div>
-
-
-            <button
-              type="submit"
-              className="w-full bg-primary text-white font-semibold py-2 rounded-lg hover:bg-primary/90 transition"
-            >
-              {editingId ? "Update" : "Add"}
-            </button>
-          </form>
-        </div>
-      )}
+          <Form.Item label="Details">
+            <JoditEditor value={editorContent} onChange={setEditorContent} />
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 };

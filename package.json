@@ -10,10 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/icons": "^6.1.0",
     "@emailjs/browser": "^4.4.1",
     "@formspree/react": "^3.0.0",
     "@types/slick-carousel": "^1.6.40",
     "@types/swiper": "^6.0.0",
+    "antd": "^5.27.4",
     "framer-motion": "^12.23.12",
     "install": "^0.13.0",
     "jodit": "^4.6.13",
