@@ -23,42 +23,32 @@ const adminNav: AdminNavItem[] = [
   ]},
 ];
 
-import { useState } from "react";
-import { PiCaretDownLight, PiCaretRightLight } from "react-icons/pi";
 
 const Sidebar = () => {
-  const [openKey, setOpenKey] = useState<string | null>(null);
 
-  const handleToggle = (key: string) => {
-    setOpenKey(prev => (prev === key ? null : key));
-  };
+
 
   return (
     <aside className="bg-white border-r w-64 min-h-screen flex flex-col py-6 px-3">
-      <div className="mb-10 text-2xl font-bold text-primary text-center tracking-wide">Admin Panel</div>
       <nav className="flex-1 space-y-2">
         {adminNav.map((item) => {
           const hasChildren = !!item.children && item.children.length > 0;
-          const isOpen = openKey === item.label;
           return (
             <div key={item.label}>
-              <button
-                type="button"
-                onClick={() => hasChildren ? handleToggle(item.label) : undefined}
-                className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition font-medium hover:bg-primary/10 focus:outline-none ${isOpen ? 'bg-primary/10 text-primary' : 'text-gray-700'} ${hasChildren ? 'justify-between' : ''}`}
+              <NavLink
+                to={item.path}
+                className={`w-full flex items-center gap-3 px-4 py-2 rounded-lg transition font-medium hover:bg-primary/10 focus:outline-none ${hasChildren ? 'justify-between' : ''}`}
                 
               >
                 <span className="flex items-center gap-3">
                   {item.icon && item.icon}
                   {item.label}
                 </span>
-                {hasChildren && (
-                  isOpen ? <PiCaretDownLight size={18} /> : <PiCaretRightLight size={18} />
-                )}
-              </button>
+                
+              </NavLink>
               {hasChildren && (
                 <div
-                  className={`ml-7 mt-1 space-y-1 overflow-hidden transition-all duration-200 ${isOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'}`}
+                  className={`ml-7 mt-1 space-y-1 overflow-hidden transition-all duration-200`}
                 >
                   {item.children?.map((child) => (
                     <NavLink
@@ -83,12 +73,18 @@ const Sidebar = () => {
 
 const AdminLayout = () => {
   return (
-    <div className="flex min-h-screen bg-gray-50">
-      <Sidebar />
-      <main className="flex-1 min-h-screen overflow-x-auto">
-        <Outlet />
-        <ScrollRestoration />
-      </main>
+    <div className="min-h-screen bg-gray-50">
+      {/* Simple Header */}
+      <header className="bg-primary text-white shadow-sm h-14 flex items-center px-8 font-semibold text-lg sticky top-0 z-30">
+        Admin Dashboard
+      </header>
+      <div className="flex min-h-[calc(100vh-56px)]">
+        <Sidebar />
+        <main className="flex-1 min-h-screen overflow-x-auto">
+          <Outlet />
+          <ScrollRestoration />
+        </main>
+      </div>
     </div>
   );
 };

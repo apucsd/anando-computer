@@ -26,6 +26,12 @@ importers:
       install:
         specifier: ^0.13.0
         version: 0.13.0
+      jodit:
+        specifier: ^4.6.13
+        version: 4.6.13
+      jodit-react:
+        specifier: ^5.2.26
+        version: 5.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       lucide-react:
         specifier: ^0.344.0
         version: 0.344.0(react@18.3.1)
@@ -716,6 +722,10 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
+  autobind-decorator@2.4.0:
+    resolution: {integrity: sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==}
+    engines: {node: '>=8.10', npm: '>=6.4.1'}
+
   autoprefixer@10.4.21:
     resolution: {integrity: sha512-O+A6LWV5LDHSJD3LjHYoNi4VLsj/Whi7k6zG12xTYaU4cQ8oxQGckXNX8cRHK5yOZ/ppVHe0ZBXGzSV9jXdVbQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1052,6 +1062,15 @@ packages:
   jiti@1.21.7:
     resolution: {integrity: sha512-/imKNG4EbWNrVjoNC/1H5/9GFy+tqjGBHCaSsN+P2RnPqjsLmv6UD3Ej+Kj8nBWaRAwyk7kK5ZUc+OEatnTR3A==}
     hasBin: true
+
+  jodit-react@5.2.26:
+    resolution: {integrity: sha512-tso49emLe7WlOWMtVbvvhJCIWYe5ZjPFcDImEpuGlk6Oeb2CXfG+vGQgTrPPx5UTBxADnZMOUAzsTHYBTgWTIw==}
+    peerDependencies:
+      react: ~0.14 || ^15 || ^16 || ^17 || ^18 || ^19
+      react-dom: ~0.14 || ^15 || ^16 || ^17 || ^18 || ^19
+
+  jodit@4.6.13:
+    resolution: {integrity: sha512-kCuf1ksHcOXkfYrhabfZDHQPlNzHH/RCScr5kpia/mvPta1Xz3A+OGVt/qyEXWLuUJorkx+B9TwFeuJdq/MFPA==}
 
   jquery@3.7.1:
     resolution: {integrity: sha512-m4avr8yL8kmFN8psrbFFFmB/If14iN5o9nw/NgnnM+kybDJpRsAynV2BsfpTYrTRysYUdADVD7CkUUizgkpLfg==}
@@ -2139,6 +2158,8 @@ snapshots:
 
   argparse@2.0.1: {}
 
+  autobind-decorator@2.4.0: {}
+
   autoprefixer@10.4.21(postcss@8.5.6):
     dependencies:
       browserslist: 4.25.3
@@ -2479,6 +2500,16 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   jiti@1.21.7: {}
+
+  jodit-react@5.2.26(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      jodit: 4.6.13
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
+
+  jodit@4.6.13:
+    dependencies:
+      autobind-decorator: 2.4.0
 
   jquery@3.7.1: {}
 

@@ -9,6 +9,7 @@ import OurGallary from "../pages/gallery/OurGallary";
 import ServiceDetailsPage from "../pages/service-details/ServiceDetailsPage";
 import Login from "../pages/login/Login";
 import AdminLayout from "../components/layout/AdminLayout";
+import Services from "../pages/admin-panel/Services";
 
 const router = createBrowserRouter([
     {
@@ -52,12 +53,16 @@ const router = createBrowserRouter([
     {
         path: "/admin",
         element: <AdminLayout/>,
-        // children: [
-        //     {
-        //         index: true,
-        //         element: <Dashboard/>
-        //     }
-        // ]
+        children: [
+            // {
+            //     index: true,
+            //     // element: <Dashboard/>
+            // }
+            {
+                path: "services",
+                element: <Services/>
+            }
+        ]
     }
 ]);
 
