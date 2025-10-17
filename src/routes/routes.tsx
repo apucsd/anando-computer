@@ -11,10 +11,10 @@ import Login from "../pages/login/Login";
 import AdminLayout from "../components/layout/AdminLayout";
 import Services from "../pages/admin-panel/Services";
 import Banner from "../pages/admin-panel/Banner";
-import ThemeSettings from "../pages/admin-panel/Theme";
 import FAQManager from "../pages/admin-panel/FAQ";
 import Dashboard from "../pages/admin-panel/Dashboard";
 import GalleryManager from "../pages/admin-panel/GallaryManager";
+import PrivateRoute from "../router/PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/admin",
-        element: <AdminLayout/>,
+        element: <PrivateRoute ><AdminLayout/></PrivateRoute>,
         children: [
             {
                 index: true,
@@ -75,10 +75,7 @@ const router = createBrowserRouter([
                 path: "gallery",
                 element: <GalleryManager/>
             },
-            {
-                path: "settings/theme",
-                element: <ThemeSettings/>
-            },
+            
             {
                 path: "settings/faq",
                 element: <FAQManager/>

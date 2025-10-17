@@ -1,35 +1,24 @@
 import { useState } from "react";
-import { Table, Button, Modal, Form, Input, message } from "antd";
-import {
-  PiPlusLight,
-  PiPencilSimpleLight,
-  PiTrashLight
-} from "react-icons/pi"; // Light variant icons
+import { Table, Button, Modal, Form, Input, notification } from "antd";
+import { PiPlusLight, PiTrashLight } from "react-icons/pi";
+import { useCreateFAQMutation, useDeleteFAQMutation, useGetFAQsQuery } from "../../redux/feature/all-api/allApi";
 
-interface FAQ {
-  id: number;
+
+interface FAQ { 
+  _id: string;
   question: string;
   answer: string;
 }
 
-const initialFAQs: FAQ[] = [
-  {
-    id: 1,
-    question: "What is your return policy?",
-    answer: "You can return any item within 30 days of purchase.",
-  },
-  {
-    id: 2,
-    question: "Do you provide international shipping?",
-    answer: "Yes, we ship worldwide with additional shipping charges.",
-  },
-];
-
 const FAQManager = () => {
-  const [faqs, setFaqs] = useState<FAQ[]>(initialFAQs);
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState<FAQ | null>(null);
   const [form] = Form.useForm();
+
+  // RTK Query hooks
+  const { data: faqs = [], isLoading } = useGetFAQsQuery([]);
+  const [createFaq, { isLoading: isCreating }] = useCreateFAQMutation();
+  const [deleteFaq] = useDeleteFAQMutation();
 
   const handleAdd = () => {
     setEditing(null);
@@ -37,21 +26,23 @@ const FAQManager = () => {
     setOpen(true);
   };
 
-  const handleEdit = (faq: FAQ) => {
-    setEditing(faq);
-    form.setFieldsValue(faq);
-    setOpen(true);
-  };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     Modal.confirm({
       title: "Delete FAQ?",
       content: "This action cannot be undone.",
       okText: "Yes, delete",
       okType: "danger",
-      onOk: () => {
-        setFaqs(faqs.filter(f => f.id !== id));
-        message.success("FAQ deleted");
+      onOk: async () => {
+        try {
+          await deleteFaq(id).unwrap();
+          notification.success({ message: "FAQ deleted successfully" });
+        } catch (err: any) {
+          notification.error({
+            message: "Error",
+            description: err?.data?.message || "Something went wrong",
+          });
+        }
       },
     });
   };
@@ -59,20 +50,18 @@ const FAQManager = () => {
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
-      if (editing) {
-        setFaqs(faqs.map(f => (f.id === editing.id ? { ...editing, ...values } : f)));
-        message.success("FAQ updated");
-      } else {
-        const newFAQ: FAQ = {
-          id: Math.max(0, ...faqs.map(f => f.id)) + 1,
-          ...values,
-        };
-        setFaqs([...faqs, newFAQ]);
-        message.success("FAQ added");
-      }
+      
+       const res = await createFaq(values).unwrap();
+       if(res.result){
+        notification.success({ message: "FAQ added successfully" });
+       }
+    
       setOpen(false);
-    } catch (err) {
-      console.log(err);
+    } catch (err: any) {
+      notification.error({
+        message: "Error",
+        description: err?.data?.message || "Something went wrong",
+      });
     }
   };
 
@@ -94,10 +83,13 @@ const FAQManager = () => {
       key: "action",
       render: (_: any, record: FAQ) => (
         <div style={{ display: "flex", gap: 8 }}>
-          <Button type="text" icon={<PiPencilSimpleLight />} onClick={() => handleEdit(record)}>
-            Edit
-          </Button>
-          <Button type="text" icon={<PiTrashLight />} danger onClick={() => handleDelete(record.id)}>
+          
+          <Button
+            type="text"
+            icon={<PiTrashLight />}
+            danger
+            onClick={() => handleDelete(record._id)}
+          >
             Delete
           </Button>
         </div>
@@ -107,14 +99,28 @@ const FAQManager = () => {
 
   return (
     <div style={{ padding: 24 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+        }}
+      >
         <h2 style={{ fontSize: 20, fontWeight: 600 }}>❓ FAQ Management</h2>
         <Button type="primary" icon={<PiPlusLight />} onClick={handleAdd}>
           Add FAQ
         </Button>
       </div>
 
-      <Table bordered dataSource={faqs} columns={columns} rowKey="id" pagination={false} />
+      <Table
+        bordered
+        dataSource={faqs}
+        columns={columns}
+        rowKey="_id"
+        pagination={false}
+        loading={isLoading}
+      />
 
       <Modal
         open={open}
@@ -122,6 +128,7 @@ const FAQManager = () => {
         okText={editing ? "Update" : "Save"}
         onCancel={() => setOpen(false)}
         onOk={handleSubmit}
+        confirmLoading={isCreating}
       >
         <Form form={form} layout="vertical">
           <Form.Item

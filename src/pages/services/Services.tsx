@@ -1,93 +1,32 @@
-import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  Search,
-  Filter,
   Phone,
   Mail,
   MapPin
 } from 'lucide-react';
-import { services } from '../../data';
 import ServiceCard from '../../components/ui/ServiceCard';
 import PageHeader from '../../components/ui/PageHeader';
+import { useGetServicesQuery } from '../../redux/feature/all-api/allApi';
+import { TService } from '../../redux/feature/all-api/type';
 
 
 
 const AllServices: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('featured');
-
- 
-
-  const categories = [
-    { id: 'all', name: 'সকল সেবা', nameEn: 'All Services' },
-    { id: 'travel', name: 'ভ্রমণ ও ভিসা', nameEn: 'Travel & Visa' },
-    { id: 'documents', name: 'পাসপোর্ট ও নিবন্ধন', nameEn: 'Passport & Registration' },
-    { id: 'government', name: 'সরকারি সেবা', nameEn: 'Government Services' },
-    { id: 'education', name: 'শিক্ষা ও চাকরি', nameEn: 'Education & Jobs' }
-  ];
-
+    const { data: services } = useGetServicesQuery([])
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
       <PageHeader title="আমাদের সকল সেবা" subTitle="আপনার সকল প্রয়োজনের জন্য আমরা বিশ্বস্ত, দ্রুত এবং প্রফেশনাল সেবা প্রদান করি।
               আমাদের এক্সপার্ট টিম আপনাকে সেরা সমাধান দিতে প্রস্তুত।" />
 
-      {/* Filters and Search */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
-            {/* Search */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="সেবা খুঁজুন..."
-                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-            </div>
+    
 
-            {/* Category Filter */}
-            <div className="flex items-center gap-4">
-              <Filter className="w-5 h-5 text-gray-500" />
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                {categories.map(category => (
-                  <option key={category.id} value={category.id}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            {/* Sort */}
-            <div className="flex items-center gap-4">
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="featured">ফিচার্ড সেবা</option>
-                <option value="name">নাম অনুসারে</option>
-              </select>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Services Grid */}
+ 
       <div className="container mx-auto px-4 py-12">
 
 
-        {/* Services Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {services.map((service) => (
+          {services?.map((service :TService) => (
            <ServiceCard service={service} />
           ))}
         </div>

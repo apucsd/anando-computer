@@ -3,15 +3,12 @@ import {
   PiHouseSimpleLight,
   PiHandsPrayingLight,
   PiAirplaneTiltLight,
-  PiBuildingsLight,
-  PiGraduationCapLight,
   PiInfoLight,
   PiBookOpenTextLight,
   PiImagesLight,
   PiQuestionLight,
   PiChatsCircleLight,
   PiPhoneThin,
-  PiAddressBookLight,
   PiArrowBendRightDownLight,
   PiMapPin,
   PiShieldCheck,
@@ -21,15 +18,21 @@ import {
 } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation } from "react-router-dom";
+import { useAppSelector } from "../../redux/hooks";
+import { useGetServicesQuery } from "../../redux/feature/all-api/allApi";
+import { TService } from "../../redux/feature/all-api/type";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const location = useLocation();
+  const {user} = useAppSelector((state)=>state.auth)
 
 
   const isActive = (path: string) => location.pathname === path;
+  const {data: services} = useGetServicesQuery([])
+    const isFeatured = services?.filter((service : TService) => service.featured == 'true')
 
   const navItems = [
     {
@@ -41,28 +44,11 @@ const Header = () => {
       path: "/services",
       label: "সেবাসমূহ",
       icon: <PiHandsPrayingLight size={20} />,
-      children: [
-        {
-          path: "/services/travel-visa",
-          label: "ভ্রমণ ও ভিসা সেবা",
-          icon: <PiAirplaneTiltLight size={20} />,
-        },
-        {
-          path: "/services/passport",
-          label: "পাসপোর্ট, ভোটার ও নিবন্ধন সেবা",
-          icon: <PiAddressBookLight size={20} />,
-        },
-        {
-          path: "/services/government",
-          label: "অন্যান্য সরকারি সেবা",
-          icon: <PiBuildingsLight size={20} />,
-        },
-        {
-          path: "/services/education",
-          label: "শিক্ষা ও চাকরি সেবা",
-          icon: <PiGraduationCapLight size={20} />,
-        },
-      ],
+      children: isFeatured?.map((service: TService) => ({
+        path: `/services/${service?._id}`,
+        label: service?.name,
+        icon: <PiAirplaneTiltLight size={20} />,
+      })) || [],
     },
     {
       path: "#",
@@ -98,8 +84,8 @@ const Header = () => {
     },
 
     {
-      path: "/login",
-      label: "লগইন",
+      path: user ? "/admin" : "/login",
+      label: user ? "Admin" : "লগইন",
       icon: <PiUserCheckLight size={20} />,
     }
   ];
@@ -117,11 +103,15 @@ const Header = () => {
             <div className="flex items-center gap-4 mb-2 sm:mb-0">
               <div className="flex items-center gap-1">
                 <PiPhoneThin className="text-primary" size={20} />
-                <span>01755-965524</span>
+                <span>
+                  <a href="tel:01755965524">01755-965524</a>
+                </span>
               </div>
               <div className="flex items-center gap-1">
                 <PiMapPin className="text-primary" size={20} />
-                <span className="bengali">চান্দনা চৌরাস্তা, গাজীপুর</span>
+                <span>
+                  <a href="https://maps.app.goo.gl/DMgLPuLhVUMwuQVMA" target="_blank" rel="noopener noreferrer">চান্দনা চৌরাস্তা, গাজীপুর</a>
+                </span>
               </div>
             </div>
             <div className="flex items-center gap-2 text-center">
@@ -183,7 +173,11 @@ const Header = () => {
                     transition={{ duration: 0.3 }}
                     className="absolute left-0 top-full w-64 bg-white rounded-lg shadow-xl z-50"
                   >
-                    {item.children.map((child) => (
+                    {item.children.map((child: {
+                      path: string;
+                      label: string;
+                      icon: React.ReactNode;
+                    }) => (
                       <Link
                         key={child.path}
                         to={child.path}
@@ -248,7 +242,11 @@ const Header = () => {
                   {/* Show children inline */}
                   {item.children && (
                     <div className="ml-4 border-l pl-2 space-y-1 mt-1">
-                      {item.children.map((child) => (
+                      {item.children.map((child : {
+                        path: string;
+                        label: string;
+                        icon: React.ReactNode;
+                      }) => (
                         <Link
                           key={child.path}
                           to={child.path}

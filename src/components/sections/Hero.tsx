@@ -6,19 +6,17 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import { SlArrowLeft, SlArrowRight } from 'react-icons/sl';
+import { useGetBannersQuery } from '../../redux/feature/all-api/allApi';
 
-const slides = [
-  { title: "ভ্রমণ ও ভিসা সেবা", description: "বিশ্বস্ত টিকেট, ভিসা এবং ওয়ার্ক পারমিট সহায়তা", url: "/hero/vid1.mp4" },
-  { title: "পাসপোর্ট, ভোটার ও নিবন্ধন সেবা", description: "ই-পাসপোর্ট, ভোটার আইডি ও জন্ম নিবন্ধন সহজে", url: "/hero/vid2.mp4" },
-  { title: "অন্যান্য সরকারি সেবা", description: "পুলিশ ক্লিয়ারেন্স, লাইসেন্স, TIN/VAT, জমির খাজনা", url: "/hero/nid.webp" },
-  { title: "শিক্ষা ও চাকরি সেবা", description: "ভর্তি, চাকরির আবেদন ও সিভি প্রস্তুতি", url: "/hero/app.jpg" },
-];
+
 
 const HeroSwiper = () => {
   const swiperRef = useRef<any>(null);
 
+
   const [isHovered, setIsHovered] = useState(false);
   const [hoverSide, setHoverSide] = useState<'left' | 'right' | null>(null);
+  const {data: banners} = useGetBannersQuery([])
 
   return (
     <div 
@@ -65,30 +63,21 @@ const HeroSwiper = () => {
         }}
         className="w-full h-full"
       >
-        {slides.map((slide, index) => (
-          <SwiperSlide key={index} className="relative w-full h-full">
-            {slide.url.endsWith(".mp4") ? (
-              <video
-                src={slide.url}
-                autoPlay
-                muted
-                playsInline
-                loop
-                className="w-full h-full object-cover pointer-events-none"
-              />
-            ) : (
+        {banners?.map((slide : {_id: string, image: string, title:string, description: string}) => (
+          <SwiperSlide key={slide?._id} className="relative w-full h-full">
+           
               <img
-                src={slide.url}
-                alt={slide.title}
+                src={slide?.image}
+                alt={slide?.title}
                 className="w-full h-full object-cover"
               />
-            )}
+            
             <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-center px-4">
               <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-bold mb-4">
-                {slide.title}
+                {slide?.title}
               </h1>
               <p className="text-white text-lg sm:text-xl md:text-2xl max-w-2xl">
-                {slide.description}
+                {slide?.description}
               </p>
             </div>
           </SwiperSlide>

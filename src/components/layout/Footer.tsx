@@ -1,6 +1,13 @@
 import { Phone, MapPin, Clock, Facebook, Mail } from 'lucide-react';
+import { useGetServicesQuery } from '../../redux/feature/all-api/allApi';
+import { TService } from '../../redux/feature/all-api/type';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
+
+    const {data: services} = useGetServicesQuery([])
+      const isFeatured = services?.filter((service : TService) => service.featured == 'true')
+  
   return (
     <footer className="bg-primary text-white py-12">
       <div className="container mx-auto px-4">
@@ -33,14 +40,12 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 bengali">আমাদের সেবাসমূহ</h4>
             <ul className="space-y-2 ">
-              <li className="bengali">বিমানের টিকেট</li>
-              <li className="bengali">ভিসা সেবা</li>
-              <li className="bengali">পাসপোর্ট সেবা</li>
-              <li className="bengali">ভোটার আইডি</li>
-              <li className="bengali">জন্ম নিবন্ধন</li>
-              <li className="bengali">পুলিশ ক্লিয়ারেন্স</li>
-              <li className="bengali">ড্রাইভিং লাইসেন্স</li>
-              <li className="bengali">শিক্ষা সেবা</li>
+              {isFeatured?.map((service : TService) => (
+                <li key={service?._id} className="bengali">
+                  <Link to={`/services/${service?._id}`}>{service?.name}</Link>
+                </li>
+              ))}
+         
             </ul>
           </div>
 

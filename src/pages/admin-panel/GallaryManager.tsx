@@ -1,126 +1,158 @@
 import { useState } from "react";
-import { Table, Button, Modal, Form, Input, Upload, Image, message } from "antd";
-import { PiPlusLight, PiTrashLight } from "react-icons/pi";
+import {
+  Button,
+  Table,
+  Modal,
+  Form,
+  Input,
+  Upload,
+  Space,
+  notification,
+  Image,
+} from "antd";
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  UploadOutlined,
+} from "@ant-design/icons";
+import { useCreateGalleryMutation, useDeleteGalleryMutation, useGetGalleryQuery } from "../../redux/feature/all-api/allApi";
 
-interface GalleryImage {
-  id: number;
+
+type Gallery = {
+  _id: number;
   title: string;
-  url: string;
-}
-
-const initialGallery: GalleryImage[] = [
-  {
-    id: 1,
-    title: "Beautiful Landscape",
-    url: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: 2,
-    title: "City View",
-    url: "https://images.unsplash.com/photo-1473187983305-f615310e7daa?auto=format&fit=crop&w=900&q=80",
-  },
-];
+  image?: string | File;
+};
 
 const GalleryManager = () => {
-  const [gallery, setGallery] = useState<GalleryImage[]>(initialGallery);
-  const [open, setOpen] = useState(false);
-  const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingId, setEditingId] = useState<number | null>(null);
   const [form] = Form.useForm();
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+
+  const [createGallery, { isLoading: isCreatingGallery }] =
+    useCreateGalleryMutation();
+  const [deleteGallery] = useDeleteGalleryMutation();
+  const { data: galleryData } = useGetGalleryQuery([]);
 
   const handleAdd = () => {
     form.resetFields();
-    setPreviewUrl("");
-    setOpen(true);
+    setUploadFile(null);
+    setEditingId(null);
+    setModalOpen(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async (id: number) => {
     Modal.confirm({
-      title: "Delete this image?",
-      okText: "Yes, delete",
+      title: "Are you sure?",
+      content: "Do you want to delete this image?",
+      okText: "Yes, Delete",
       okType: "danger",
-      onOk: () => {
-        setGallery(gallery.filter(img => img.id !== id));
-        message.success("Image deleted");
+      centered: true,
+      onOk: async () => {
+        try {
+          await deleteGallery(id).unwrap();
+          notification.success({
+            message: "Image deleted successfully",
+          });
+        } catch (error: any) {
+          notification.error({
+            message: "Error",
+            description: error?.data?.message || "Something went wrong",
+          });
+        }
       },
     });
   };
 
-  const handleFileChange = (file: File) => {
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-    return false; // prevent upload to server
-  };
+  const handleSave = async (values: any) => {
+    if (!uploadFile) {
+      notification.error({ message: "Please upload an image!" });
+      return;
+    }
 
-  const handleSubmit = async () => {
     try {
-      const values = await form.validateFields();
-      if (!previewUrl) {
-        message.error("Please upload an image!");
-        return;
-      }
-      const newImage: GalleryImage = {
-        id: Math.max(0, ...gallery.map(g => g.id)) + 1,
-        title: values.title,
-        url: previewUrl,
-      };
-      setGallery([...gallery, newImage]);
-      message.success("Image added");
-      setOpen(false);
-      setPreviewUrl("");
-    } catch (err) {
-      console.log(err);
+      const formData = new FormData();
+      formData.append("title", values.title);
+      formData.append("image", uploadFile);
+
+      await createGallery(formData).unwrap();
+      notification.success({ message: "Image added successfully" });
+      setModalOpen(false);
+      setUploadFile(null);
+    } catch (error: any) {
+      notification.error({
+        message: "Error",
+        description: error?.data?.message || "Something went wrong",
+      });
     }
   };
 
   const columns = [
     {
-      title: "Preview",
-      dataIndex: "url",
-      key: "url",
-      render: (url: string) => <Image src={url} width={100} height={60} style={{ objectFit: "cover" }} />,
+      title: "#",
+      key: "index",
+      render: (_: any, __: any, index: number) => index + 1,
+      width: 50,
     },
     {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
+      title: "Preview",
+      dataIndex: "image",
+      key: "image",
+      render: (img: string) => <Image width={80} height={50} src={img} />,
     },
+    { title: "Title", dataIndex: "title", key: "title" },
     {
       title: "Action",
       key: "action",
-      render: (_: any, record: GalleryImage) => (
-        <Button
-          type="text"
-          icon={<PiTrashLight />}
-          danger
-          onClick={() => handleDelete(record.id)}
-        >
-          Delete
-        </Button>
+      render: (_: any, record: Gallery) => (
+        <Space>
+          <Button
+            type="link"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => handleDelete(record._id)}
+          >
+            Delete
+          </Button>
+        </Space>
       ),
     },
   ];
 
   return (
     <div style={{ padding: 24 }}>
-      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
-        <h2 style={{ fontSize: 20, fontWeight: 600 }}>🖼️ Gallery Images</h2>
-        <Button type="primary" icon={<PiPlusLight />} onClick={handleAdd}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 16,
+        }}
+      >
+        <h1 style={{ fontSize: 22, fontWeight: 600 }}>Gallery</h1>
+        <Button type="primary" icon={<PlusOutlined />} onClick={handleAdd}>
           Add Image
         </Button>
       </div>
 
-      <Table bordered dataSource={gallery} columns={columns} rowKey="id" pagination={false} />
+      <Table
+        columns={columns}
+        dataSource={galleryData}
+        rowKey="_id"
+        bordered
+        pagination={{ pageSize: 5 }}
+      />
 
       <Modal
-        open={open}
-        title="Add Gallery Image"
-        okText="Save"
-        onCancel={() => setOpen(false)}
-        onOk={handleSubmit}
+        title={editingId ? "Update Image" : "Add Image"}
+        open={modalOpen}
+        onCancel={() => setModalOpen(false)}
+        footer={false}
       >
-        <Form form={form} layout="vertical">
+        <Form layout="vertical" form={form} onFinish={handleSave}>
           <Form.Item
-            label="Image Title"
+            label="Title"
             name="title"
             rules={[{ required: true, message: "Please enter image title" }]}
           >
@@ -129,20 +161,38 @@ const GalleryManager = () => {
 
           <Form.Item label="Upload Image">
             <Upload
-              beforeUpload={(file) => handleFileChange(file)}
+              beforeUpload={(file) => {
+                setUploadFile(file);
+                return false;
+              }}
               maxCount={1}
-              showUploadList={false}
-              accept="image/*"
             >
-              <Button>Select Image</Button>
+              <Button icon={<UploadOutlined />}>Select Image</Button>
             </Upload>
+            {uploadFile && (
+              <p style={{ marginTop: 5, fontSize: 12 }}>
+                Selected: {uploadFile.name}
+              </p>
+            )}
           </Form.Item>
 
-          {previewUrl && (
-            <div style={{ textAlign: "center", marginTop: 10 }}>
-              <Image src={previewUrl} width="100%" height={150} style={{ objectFit: "cover", borderRadius: 8 }} />
-            </div>
-          )}
+          <div
+            style={{
+              textAlign: "right",
+              display: "flex",
+              gap: 10,
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button onClick={() => setModalOpen(false)}>Cancel</Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isCreatingGallery}
+            >
+              {editingId ? "Update" : "Add"}
+            </Button>
+          </div>
         </Form>
       </Modal>
     </div>

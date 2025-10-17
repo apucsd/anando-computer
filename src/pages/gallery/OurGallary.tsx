@@ -1,46 +1,9 @@
 import { motion } from 'framer-motion';
 import PageHeader from '../../components/ui/PageHeader';
-
-type GalleryItem = {
-  src: string;
-  title: string;
-  caption?: string;
-};
-
-const images: GalleryItem[] = [
-  {
-    src: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=1200&auto=format&fit=crop',
-    title: 'দোকানের ফ্রন্ট ভিউ',
-    caption: 'আনন্দ কম্পিউটারের প্রধান প্রবেশদ্বার'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop',
-    title: 'সার্ভিস কর্নার',
-    caption: 'কম্পিউটার রিপেয়ার ও সার্ভিসিং'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop',
-    title: 'কাস্টমার সাপোর্ট ডেস্ক',
-    caption: 'দ্রুত ও ভদ্র সেবা'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1535223289827-42f1e9919769?q=80&w=1200&auto=format&fit=crop',
-    title: 'পণ্য প্রদর্শনী',
-    caption: 'অরিজিনাল পণ্যের কালেকশন'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop',
-    title: 'ওয়ার্কিং স্পেস',
-    caption: 'দক্ষ টিমের কাজের পরিবেশ'
-  },
-  {
-    src: 'https://images.unsplash.com/photo-1517263904808-5dc91e3e7044?q=80&w=1200&auto=format&fit=crop',
-    title: 'নেটওয়ার্কিং সেটআপ',
-    caption: 'প্রফেশনাল নেটওয়ার্ক কনফিগারেশন'
-  }
-];
+import { useGetGalleryQuery } from '../../redux/feature/all-api/allApi';
 
 const OurGallary = () => {
+  const {data : galleries} = useGetGalleryQuery([])
   return (
     <div className="min-h-screen">
       <PageHeader title="আমাদের গ্যালারি" subTitle="আমাদের দোকান, সেবা ও কাজের কিছু মুহূর্ত" />
@@ -53,9 +16,9 @@ const OurGallary = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {images.map((item, index) => (
+            {galleries?.map((item : any, index : any) => (
               <motion.figure
-                key={item.src + index}
+                key={item?._id + index}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -63,8 +26,8 @@ const OurGallary = () => {
                 className="group relative overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm"
               >
                 <img
-                  src={item.src}
-                  alt={item.title}
+                  src={item?.image}
+                  alt={item?.title}
                   className="h-64 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                   loading="lazy"
                 />

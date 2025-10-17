@@ -1,93 +1,157 @@
 import { useState } from "react";
-import { Table, Button, Modal, Form, Select, Upload, Image, message } from "antd";
-import { UploadOutlined, DeleteOutlined, PlusOutlined } from "@ant-design/icons";
+import {
+  Table,
+  Button,
+  Modal,
+  Form,
+  Upload,
+  Image,
+  Input,
+  message,
+  notification,
+  Typography,
+  Space,
+} from "antd";
+import {
+  UploadOutlined,
+  DeleteOutlined,
+  PlusOutlined,
+  PictureOutlined,
+} from "@ant-design/icons";
+import {
+  useGetBannersQuery,
+  useCreateBannerMutation,
+  useDeleteBannerMutation,
+} from "../../redux/feature/all-api/allApi";
 
-const { Option } = Select;
-
-const initialBanners = [
-  {
-    id: 1,
-    type: "image",
-    url: "https://images.unsplash.com/photo-1511485977113-f34c92461ad9?auto=format&fit=crop&w=900&q=80",
-  },
-  {
-    id: 2,
-    type: "video",
-    url: "https://www.w3schools.com/html/mov_bbb.mp4",
-  },
-];
+const { Text } = Typography;
 
 const Banner = () => {
-  const [banners, setBanners] = useState(initialBanners);
   const [open, setOpen] = useState(false);
   const [form] = Form.useForm();
   const [previewUrl, setPreviewUrl] = useState<string>("");
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
 
+  const { data: banners = [], isLoading } = useGetBannersQuery([]);
+  const [createBanner, { isLoading: isCreating }] = useCreateBannerMutation();
+  const [deleteBanner] = useDeleteBannerMutation();
+
+  // 🟢 Open Modal
   const handleAdd = () => {
     form.resetFields();
     setPreviewUrl("");
+    setUploadFile(null);
     setOpen(true);
   };
 
+  // 🗑 Delete
   const handleDelete = (id: number) => {
     Modal.confirm({
-      title: "Delete this banner?",
-      content: "This action cannot be undone.",
+      title: "Are you sure?",
+      content: "This banner will be permanently deleted.",
       okText: "Yes, delete",
       okType: "danger",
-      onOk: () => setBanners((b) => b.filter((bn) => bn.id !== id)),
+      centered: true,
+      onOk: async () => {
+        try {
+          await deleteBanner(id).unwrap();
+          notification.success({ message: "Banner deleted successfully" });
+        } catch (error: any) {
+          notification.error({
+            message: "Error deleting banner",
+            description: error?.data?.message || "Something went wrong",
+          });
+        }
+      },
     });
   };
 
-  const handleSubmit = async () => {
-    try {
-      const values = await form.validateFields();
-      if (!previewUrl) {
-        message.error("Please upload a file first!");
-        return;
-      }
-      const newBanner = {
-        id: Math.max(0, ...banners.map((b) => b.id)) + 1,
-        type: values.type,
-        url: previewUrl,
-      };
-      setBanners([...banners, newBanner]);
-      message.success("Banner added successfully!");
-      setOpen(false);
-    } catch (err) {
-      console.log("Validation failed:", err);
-    }
-  };
-
+  // 📸 Handle upload preview
   const handleUpload = (file: File) => {
     const url = URL.createObjectURL(file);
     setPreviewUrl(url);
-    return false; // prevent upload to server
+    setUploadFile(file);
+    return false; // Prevent auto-upload
   };
 
+  // 💾 Submit
+  const handleSubmit = async () => {
+    try {
+      await form.validateFields();
+
+      if (!uploadFile) {
+        message.error("Please upload an image");
+        return;
+      }
+
+      const values = form.getFieldsValue();
+      const formData = new FormData();
+      formData.append("image", uploadFile);
+      if (values.title) formData.append("title", values.title);
+      if (values.description) formData.append("description", values.description);
+
+      await createBanner(formData).unwrap();
+
+      notification.success({
+        message: "Banner added successfully",
+      });
+
+      setOpen(false);
+      form.resetFields();
+      setPreviewUrl("");
+      setUploadFile(null);
+    } catch (err: any) {
+      notification.error({
+        message: "Failed to add banner",
+        description: err?.data?.message || "Something went wrong",
+      });
+    }
+  };
+
+  // 🧱 Columns
   const columns = [
     {
-      title: "Preview",
-      dataIndex: "url",
-      key: "url",
-      render: (url: string, record: any) =>
-        record.type === "image" ? (
-          <Image src={url} width={100} height={60} style={{ objectFit: "cover" }} />
-        ) : (
-          <video
-            src={url}
-            width={120}
-            height={60}
-            style={{ borderRadius: 6 }}
-            controls
-          />
-        ),
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (url: string) => (
+        <Image
+          src={url}
+          width={120}
+          height={70}
+          style={{
+            borderRadius: 8,
+            objectFit: "cover",
+            boxShadow: "0 1px 4px rgba(0,0,0,0.15)",
+          }}
+        />
+      ),
     },
     {
-      title: "Type",
-      dataIndex: "type",
-      key: "type",
-      render: (type: string) => type.charAt(0).toUpperCase() + type.slice(1),
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+      render: (title: string) => (
+        <Text>{title || <Text type="secondary">No title</Text>}</Text>
+      ),
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "description",
+      render: (description: string) => (
+        <span >{description ||   "No description"}</span>
+      ),
+    },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (date: string) => (
+        <Text type="secondary">
+          {new Date(date).toLocaleDateString()}
+        </Text>
+      ),
     },
     {
       title: "Action",
@@ -97,7 +161,7 @@ const Banner = () => {
           type="text"
           icon={<DeleteOutlined />}
           danger
-          onClick={() => handleDelete(record.id)}
+          onClick={() => handleDelete(record._id)}
         >
           Delete
         </Button>
@@ -107,6 +171,7 @@ const Banner = () => {
 
   return (
     <div style={{ padding: 24 }}>
+      {/* Header */}
       <div
         style={{
           display: "flex",
@@ -115,7 +180,13 @@ const Banner = () => {
           marginBottom: 16,
         }}
       >
-        <h2 style={{ fontSize: 20, fontWeight: 600 }}>🎯 Hero Section Banners</h2>
+        <Space>
+          <PictureOutlined style={{ fontSize: 22, color: "#1677ff" }} />
+          <h2 style={{ fontSize: 20, fontWeight: 600, margin: 0 }}>
+            Homepage Banners
+          </h2>
+        </Space>
+
         <Button
           type="primary"
           icon={<PlusOutlined />}
@@ -125,43 +196,49 @@ const Banner = () => {
         </Button>
       </div>
 
+      {/* Table */}
       <Table
         bordered
         dataSource={banners}
         columns={columns}
-        rowKey="id"
-        pagination={false}
+        rowKey="_id"
+        pagination={{ pageSize: 5 }}
+        loading={isLoading}
       />
 
+      {/* Modal */}
       <Modal
         open={open}
         onCancel={() => setOpen(false)}
         title="Add Banner"
         okText="Save"
         onOk={handleSubmit}
+        confirmLoading={isCreating}
+        centered
+        width={800}
       >
         <Form form={form} layout="vertical">
           <Form.Item
-            name="type"
-            label="Type"
-            rules={[{ required: true, message: "Please select a type" }]}
-            initialValue="image"
+            label="Title (optional)"
+            name="title"
           >
-            <Select
-              onChange={() => {
-                setPreviewUrl("");
-              }}
-            >
-              <Option value="image">Image</Option>
-              <Option value="video">Video</Option>
-            </Select>
+            <Input placeholder="Enter banner title" />
           </Form.Item>
 
-          <Form.Item label="Upload File" name="file" rules={[{ required: true }]}>
+          <Form.Item
+            label="Description (optional)"
+            name="description"
+          >
+            <Input placeholder="Enter banner description" />
+          </Form.Item>
+
+          <Form.Item
+            label="Upload Image"
+            name="file"
+            rules={[{ required: true, message: "Please upload an image" }]}
+          >
             <Upload
-              accept={
-                form.getFieldValue("type") === "video" ? "video/*" : "image/*"
-              }
+              accept="image/*"
               beforeUpload={handleUpload}
               maxCount={1}
               showUploadList={false}
@@ -172,22 +249,16 @@ const Banner = () => {
 
           {previewUrl && (
             <div style={{ textAlign: "center" }}>
-              {form.getFieldValue("type") === "image" ? (
-                <Image
-                  src={previewUrl}
-                  width="100%"
-                  height={150}
-                  style={{ objectFit: "cover", borderRadius: 8 }}
-                />
-              ) : (
-                <video
-                  src={previewUrl}
-                  controls
-                  width="100%"
-                  height={150}
-                  style={{ borderRadius: 8 }}
-                />
-              )}
+              <Image
+                src={previewUrl}
+                width="100%"
+                height={160}
+                style={{
+                  objectFit: "cover",
+                  borderRadius: 10,
+                  boxShadow: "0 1px 6px rgba(0,0,0,0.1)",
+                }}
+              />
             </div>
           )}
         </Form>

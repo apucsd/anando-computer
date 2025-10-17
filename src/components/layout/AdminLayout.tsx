@@ -10,7 +10,6 @@ import {
   AppstoreOutlined,
   PictureOutlined,
   SettingOutlined,
-  BgColorsOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 
@@ -34,7 +33,6 @@ const adminNav: AdminNavItem[] = [
     icon: <SettingOutlined />,
     children: [
       { label: "Banner", path: "/admin/settings/banner", icon: <PictureOutlined /> },
-      { label: "Theme Color", path: "/admin/settings/theme", icon: <BgColorsOutlined /> },
       { label: "FAQ", path: "/admin/settings/faq", icon: <QuestionCircleOutlined /> },
     ],
   },
