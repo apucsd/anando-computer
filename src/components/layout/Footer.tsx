@@ -1,5 +1,5 @@
 import { Phone, MapPin, Clock, Facebook } from "lucide-react";
-import { useGetServicesQuery } from "../../redux/featureall-api/allApi";
+import { useGetServicesQuery } from "../../redux/feature/all-api/allApi";
 import { TService } from "../../redux/feature/all-api/type";
 import { Link } from "react-router-dom";
 import { FaWhatsapp } from "react-icons/fa";

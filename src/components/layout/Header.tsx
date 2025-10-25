@@ -141,7 +141,7 @@ const Header = () => {
                 আনন্দ কম্পিউটার এন্ড এয়ার ট্রাভেলস
               </h1>
               <p className="text-sm text-gray-600">
-                Ananda Computer & Air Travels
+                Anondo Computer & Air Travels
               </p>
             </div>
           </div>
@@ -157,7 +157,7 @@ const Header = () => {
               >
                 <Link
                   to={item.path}
-                  className={`px-4 flex items-center gap-2 py-2  transition-colors ${
+                  className={`px-4 flex items-center gap-2 py-2 bengali transition-colors ${
                     isActive(item.path)
                       ? "text-primary font-semibold after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-primary"
                       : "text-gray-700 hover:text-primary"
@@ -186,7 +186,7 @@ const Header = () => {
                         <Link
                           key={child.path}
                           to={child.path}
-                          className={`px-4 py-2 flex items-center gap-2 text-sm  hover:text-primary transition-colors ${
+                          className={`px-4 py-2 flex items-center gap-2 text-sm bengali hover:text-primary transition-colors ${
                             isActive(child.path)
                               ? "bg-primary-50 text-primary font-medium"
                               : "text-gray-700 hover:bg-gray-100"
@@ -235,7 +235,7 @@ const Header = () => {
                 <div key={item.path}>
                   <Link
                     to={item.path}
-                    className={`px-4 py-2 flex items-center gap-2 rounded-md  ${
+                    className={`px-4 py-2 flex items-center gap-2 rounded-md bengali ${
                       isActive(item.path)
                         ? "bg-primary text-white"
                         : "text-gray-700 hover:bg-gray-100"
@@ -257,7 +257,7 @@ const Header = () => {
                           <Link
                             key={child.path}
                             to={child.path}
-                            className={`px-3 flex items-center gap-2 py-1 text-sm  ${
+                            className={`px-3 flex items-center gap-2 py-1 text-sm bengali ${
                               isActive(child.path)
                                 ? "text-primary font-medium"
                                 : "text-gray-600 hover:text-primary"
