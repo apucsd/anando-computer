@@ -36,22 +36,17 @@ const Contact = () => {
           subtitle="আপনার প্রয়োজনীয় সেবার জন্য আমাদের সাথে যোগাযোগ করুন। আমরা সর্বদা আপনার সেবায় প্রস্তুত।"
         />
         <div>
-        
           <div className="flex flex-col lg:flex-row justify-center items-center">
             <div className="flex border border-primary rounded-xl p-6 h-full">
               <div className="p-3 rounded-full mr-4">
                 <Phone className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h4 className="font-medium text-gray-800 mb-1 bengali">
-                  ফোন নম্বর
-                </h4>
+                <h4 className="font-medium text-gray-800 mb-1 ">ফোন নম্বর</h4>
                 <p className="text-gray-600 font-medium text-lg">
                   01755-965524
                 </p>
-                <p className="text-gray-600 text-sm bengali">
-                  যেকোনো সময় কল করুন
-                </p>
+                <p className="text-gray-600 text-sm ">যেকোনো সময় কল করুন</p>
               </div>
             </div>
 
@@ -60,10 +55,8 @@ const Contact = () => {
                 <MapPin className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h4 className="font-medium text-gray-800 mb-1 bengali">
-                  ঠিকানা
-                </h4>
-                <p className="text-gray-600 bengali">
+                <h4 className="font-medium text-gray-800 mb-1 ">ঠিকানা</h4>
+                <p className="text-gray-600 ">
                   নাসির সুপার মার্কেট, টাঙ্গাইল রোড,
                   <br />
                   চান্দনা চৌরাস্তা, গাজীপুর সিটি কর্পোরেশন,
@@ -78,10 +71,8 @@ const Contact = () => {
                 <Clock className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h4 className="font-medium text-gray-800 mb-1 bengali">
-                  কার্যসময়
-                </h4>
-                <p className="text-gray-600 bengali">
+                <h4 className="font-medium text-gray-800 mb-1 ">কার্যসময়</h4>
+                <p className="text-gray-600 ">
                   সকাল ৯:০০ - রাত ৮:০০
                   <br />
                   সপ্তাহের ৭ দিন খোলা
@@ -89,8 +80,6 @@ const Contact = () => {
               </div>
             </div>
           </div>
-
-        
         </div>
         <div className="grid lg:grid-cols-2 gap-12 mt-12">
           <div className="rounded-xl overflow-hidden shadow-lg">
@@ -106,13 +95,13 @@ const Contact = () => {
             />
           </div>
           <div className="rounded-xl shadow-lg shadow-primary/20 p-8">
-            <h3 className="text-2xl font-bold text-gray-800 mb-6 bengali">
+            <h3 className="text-2xl font-bold text-gray-800 mb-6 ">
               বার্তা পাঠান
             </h3>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-primary font-medium mb-2 bengali">
+                <label className="block text-primary font-medium mb-2 ">
                   নাম <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -127,7 +116,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className="block text-primary font-medium mb-2 bengali">
+                <label className="block text-primary font-medium mb-2 ">
                   ফোন নম্বর <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -156,7 +145,7 @@ const Contact = () => {
               </div>
 
               <div>
-                <label className="block text-primary font-medium mb-2 bengali">
+                <label className="block text-primary font-medium mb-2 ">
                   প্রয়োজনীয় সেবা
                 </label>
                 <select
@@ -165,41 +154,41 @@ const Contact = () => {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-primary/30 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary focus:outline-none transition-all duration-200 appearance-none bg-white"
                 >
-                  <option value="" className="text-gray-400 bengali">
+                  <option value="" className="text-gray-400 ">
                     সেবা নির্বাচন করুন
                   </option>
-                  <option value="flight" className="bengali">
+                  <option value="flight" className="">
                     বিমানের টিকেট
                   </option>
-                  <option value="visa" className="bengali">
+                  <option value="visa" className="">
                     ভিসা সেবা
                   </option>
-                  <option value="passport" className="bengali">
+                  <option value="passport" className="">
                     পাসপোর্ট সেবা
                   </option>
-                  <option value="voter" className="bengali">
+                  <option value="voter" className="">
                     ভোটার আইডি
                   </option>
-                  <option value="birth" className="bengali">
+                  <option value="birth" className="">
                     জন্ম নিবন্ধন
                   </option>
-                  <option value="police" className="bengali">
+                  <option value="police" className="">
                     পুলিশ ক্লিয়ারেন্স
                   </option>
-                  <option value="driving" className="bengali">
+                  <option value="driving" className="">
                     ড্রাইভিং লাইসেন্স
                   </option>
-                  <option value="education" className="bengali">
+                  <option value="education" className="">
                     শিক্ষা সেবা
                   </option>
-                  <option value="other" className="bengali">
+                  <option value="other" className="">
                     অন্যান্য
                   </option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-primary font-medium mb-2 bengali">
+                <label className="block text-primary font-medium mb-2 ">
                   বার্তা <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -216,7 +205,7 @@ const Contact = () => {
                 type="submit"
                 className="w-full bg-primary text-white font-semibold py-3 px-6 rounded-lg hover:bg-primary/90 transition-all duration-300 transform hover:scale-[1.02] active:scale-95 shadow-md hover:shadow-lg"
               >
-                <span className="bengali text-lg">বার্তা পাঠান</span>
+                <span className=" text-lg">বার্তা পাঠান</span>
               </button>
             </form>
           </div>

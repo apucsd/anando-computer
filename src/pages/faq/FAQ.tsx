@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
-import PageHeader from '../../components/ui/PageHeader';
-import CallToAction from '../../components/sections/CallToAction';
-import { useGetFAQsQuery } from '../../redux/feature/all-api/allApi';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronDown, ChevronUp, HelpCircle } from "lucide-react";
+import CallToAction from "../../components/sections/CallToAction";
+import { useGetFAQsQuery } from "../../redux/feature/all-api/allApi";
 
 interface FAQItemProps {
   question: string;
@@ -12,16 +11,19 @@ interface FAQItemProps {
   onToggle: () => void;
 }
 
-const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onToggle }) => {
+const FAQItem: React.FC<FAQItemProps> = ({
+  question,
+  answer,
+  isOpen,
+  onToggle,
+}) => {
   return (
     <div className="border-b border-gray-200 dark:border-gray-700">
       <button
         onClick={onToggle}
         className="w-full py-6 text-left flex justify-between items-center hover:bg-primary/80 transition-colors duration-200 px-6"
       >
-        <span className="text-lg font-medium  pr-4">
-          {question}
-        </span>
+        <span className="text-lg font-medium  pr-4">{question}</span>
         <motion.div
           animate={{ rotate: isOpen ? 180 : 0 }}
           transition={{ duration: 0.2 }}
@@ -45,9 +47,7 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onToggle })
             className="overflow-hidden"
           >
             <div className="px-6 pb-6">
-              <p className="text-gray-600  leading-relaxed">
-                {answer}
-              </p>
+              <p className="text-gray-600  leading-relaxed">{answer}</p>
             </div>
           </motion.div>
         )}
@@ -58,21 +58,18 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer, isOpen, onToggle })
 
 const FAQ = () => {
   const [openItems, setOpenItems] = useState<number[]>([]);
-  const {data: faqs} = useGetFAQsQuery([])
-    
+  const { data: faqs } = useGetFAQsQuery([]);
 
   const toggleItem = (index: number) => {
-    setOpenItems(prev =>
+    setOpenItems((prev) =>
       prev.includes(index)
-        ? prev.filter(item => item !== index)
+        ? prev.filter((item) => item !== index)
         : [...prev, index]
     );
   };
 
-
   return (
-    <div className="min-h-screen  py-16">
-      <PageHeader title='FAQ' subTitle='Frequently ask questions' />
+    <div className="min-h-screen">
       <div className="container mx-auto px-4">
         {/* Header */}
         <motion.div
@@ -88,7 +85,8 @@ const FAQ = () => {
             প্রায়শই জিজ্ঞাসিত প্রশ্নসমূহ
           </h1>
           <p className="text-lg text-gray-600  max-w-2xl mx-auto">
-            আপনার সকল প্রশ্নের উত্তর এখানে পাবেন। আমাদের সেবা সম্পর্কে বিস্তারিত তথ্যের জন্য নিচের প্রশ্নগুলো দেখুন।
+            আপনার সকল প্রশ্নের উত্তর এখানে পাবেন। আমাদের সেবা সম্পর্কে বিস্তারিত
+            তথ্যের জন্য নিচের প্রশ্নগুলো দেখুন।
           </p>
         </motion.div>
 
@@ -99,28 +97,21 @@ const FAQ = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="max-w-4xl mx-auto"
         >
-          
-        
-
-                <div className="divide-y divide-gray-200 dark:divide-gray-700">
-                  {faqs?.map((item : any, itemIndex : any) => {
-                    
-                    return (
-                      <FAQItem
-                        key={itemIndex}
-                        question={item.question}
-                        answer={item.answer}
-                        isOpen={openItems.includes(itemIndex)}
-                        onToggle={() => toggleItem(itemIndex)}
-                      />
-                    );
-                  })}
-                </div>
-          
-        
+          <div className="divide-y divide-gray-200 dark:divide-gray-700">
+            {faqs?.map((item: any, itemIndex: any) => {
+              return (
+                <FAQItem
+                  key={itemIndex}
+                  question={item.question}
+                  answer={item.answer}
+                  isOpen={openItems.includes(itemIndex)}
+                  onToggle={() => toggleItem(itemIndex)}
+                />
+              );
+            })}
+          </div>
 
           {/* Contact CTA */}
-
         </motion.div>
       </div>
       <div className="my-4">

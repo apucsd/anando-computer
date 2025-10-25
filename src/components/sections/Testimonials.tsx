@@ -1,20 +1,23 @@
-import React from 'react';
-import Section from '../ui/SectionTitle';
-import { testimonials } from '../../data';
-import { Quote, Star, MapPin } from 'lucide-react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Pagination, Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
+import React from "react";
+import Section from "../ui/SectionTitle";
+import { testimonials } from "../../data";
+import { Quote, Star, MapPin } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/pagination";
 
 const Testimonials: React.FC = () => {
   return (
     <>
       <Section
-        title="ক্লায়েন্টদের প্রতিক্রিয়া"
-        subtitle="আমাদের সেবা নিয়ে ক্লায়েন্টরা কী বলেন"
+        title="কাস্টমারের মতামত"
+        subtitle="আমাদের সেবা নিয়ে কাস্টমাররা কী বলেন"
       />
-      <section id="testimonials" className="h-screen bg-gray-50 flex items-center justify-center">
+      <section
+        id="testimonials"
+        className="h-screen bg-gray-50 flex items-center justify-center"
+      >
         <div className="container mx-auto px-4 w-full max-w-7xl">
           <Swiper
             modules={[Pagination, Autoplay]}
@@ -26,9 +29,9 @@ const Testimonials: React.FC = () => {
             }}
             pagination={{
               clickable: true,
-              el: '.testimonial-pagination',
-              bulletClass: 'testimonial-bullet',
-              bulletActiveClass: 'testimonial-bullet-active'
+              el: ".testimonial-pagination",
+              bulletClass: "testimonial-bullet",
+              bulletActiveClass: "testimonial-bullet-active",
             }}
             autoplay={{ delay: 5000, disableOnInteraction: false }}
             className="pb-16"
@@ -44,7 +47,11 @@ const Testimonials: React.FC = () => {
                   {/* Rating stars */}
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={16} className="fill-yellow-400 text-yellow-400" />
+                      <Star
+                        key={i}
+                        size={16}
+                        className="fill-yellow-400 text-yellow-400"
+                      />
                     ))}
                   </div>
 
@@ -91,9 +98,12 @@ const Testimonials: React.FC = () => {
 
           {/* Additional CTA */}
           <div className="text-center mt-12">
-            <a href='#contact'  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-100 rounded-full text-blue-600 font-medium hover:bg-blue-200 transition-colors duration-200 cursor-pointer">
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-100 rounded-full text-blue-600 font-medium hover:bg-blue-200 transition-colors duration-200 cursor-pointer"
+            >
               <MapPin size={18} />
-              <span>আমাদের অফিসে আসুন আরও বিস্তারিত জানতে</span>
+              <span>আমাদের দোকানে আসুন আরও বিস্তারিত জানতে</span>
             </a>
           </div>
         </div>

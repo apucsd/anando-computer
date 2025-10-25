@@ -27,12 +27,13 @@ const Header = () => {
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   const location = useLocation();
-  const {user} = useAppSelector((state)=>state.auth)
-
+  const { user } = useAppSelector((state) => state.auth);
 
   const isActive = (path: string) => location.pathname === path;
-  const {data: services} = useGetServicesQuery([])
-    const isFeatured = services?.filter((service : TService) => service.featured == 'true')
+  const { data: services } = useGetServicesQuery([]);
+  const isFeatured = services?.filter(
+    (service: TService) => service.featured == "true"
+  );
 
   const navItems = [
     {
@@ -44,11 +45,12 @@ const Header = () => {
       path: "/services",
       label: "সেবাসমূহ",
       icon: <PiHandsPrayingLight size={20} />,
-      children: isFeatured?.map((service: TService) => ({
-        path: `/services/${service?._id}`,
-        label: service?.name,
-        icon: <PiAirplaneTiltLight size={20} />,
-      })) || [],
+      children:
+        isFeatured?.map((service: TService) => ({
+          path: `/services/${service?._id}`,
+          label: service?.name,
+          icon: <PiAirplaneTiltLight size={20} />,
+        })) || [],
     },
     {
       path: "#",
@@ -87,17 +89,13 @@ const Header = () => {
       path: user ? "/admin" : "/login",
       label: user ? "Admin" : "লগইন",
       icon: <PiUserCheckLight size={20} />,
-    }
+    },
   ];
 
   return (
-    <header
-      className={` w-full z-50 bg-white transition-all duration-300`}
-    >
+    <header className={` w-full z-50 bg-white transition-all duration-300`}>
       {/* Top Bar */}
-      <div
-        className={`text-gray-800 py-2 border-b border-gray-200`}
-      >
+      <div className={`text-gray-800 py-2 border-b border-gray-200`}>
         <div className="container mx-auto px-4">
           <div className="flex flex-col sm:flex-row justify-between items-center text-sm">
             <div className="flex items-center gap-4 mb-2 sm:mb-0">
@@ -110,7 +108,13 @@ const Header = () => {
               <div className="flex items-center gap-1">
                 <PiMapPin className="text-primary" size={20} />
                 <span>
-                  <a href="https://maps.app.goo.gl/DMgLPuLhVUMwuQVMA" target="_blank" rel="noopener noreferrer">চান্দনা চৌরাস্তা, গাজীপুর</a>
+                  <a
+                    href="https://maps.app.goo.gl/DMgLPuLhVUMwuQVMA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    চান্দনা চৌরাস্তা, গাজীপুর
+                  </a>
                 </span>
               </div>
             </div>
@@ -137,7 +141,7 @@ const Header = () => {
                 আনন্দ কম্পিউটার এন্ড এয়ার ট্রাভেলস
               </h1>
               <p className="text-sm text-gray-600">
-                Anondo Computer & Air Travels
+                Ananda Computer & Air Travels
               </p>
             </div>
           </div>
@@ -153,7 +157,7 @@ const Header = () => {
               >
                 <Link
                   to={item.path}
-                  className={`px-4 flex items-center gap-2 py-2 bengali transition-colors ${
+                  className={`px-4 flex items-center gap-2 py-2  transition-colors ${
                     isActive(item.path)
                       ? "text-primary font-semibold after:absolute after:left-0 after:bottom-0 after:w-full after:h-[2px] after:bg-primary"
                       : "text-gray-700 hover:text-primary"
@@ -173,24 +177,26 @@ const Header = () => {
                     transition={{ duration: 0.3 }}
                     className="absolute left-0 top-full w-64 bg-white rounded-lg shadow-xl z-50"
                   >
-                    {item.children.map((child: {
-                      path: string;
-                      label: string;
-                      icon: React.ReactNode;
-                    }) => (
-                      <Link
-                        key={child.path}
-                        to={child.path}
-                        className={`px-4 py-2 flex items-center gap-2 text-sm bengali hover:text-primary transition-colors ${
-                          isActive(child.path)
-                            ? "bg-primary-50 text-primary font-medium"
-                            : "text-gray-700 hover:bg-gray-100"
-                        }`}
-                      >
-                        {child.icon}
-                        {child.label}
-                      </Link>
-                    ))}
+                    {item.children.map(
+                      (child: {
+                        path: string;
+                        label: string;
+                        icon: React.ReactNode;
+                      }) => (
+                        <Link
+                          key={child.path}
+                          to={child.path}
+                          className={`px-4 py-2 flex items-center gap-2 text-sm  hover:text-primary transition-colors ${
+                            isActive(child.path)
+                              ? "bg-primary-50 text-primary font-medium"
+                              : "text-gray-700 hover:bg-gray-100"
+                          }`}
+                        >
+                          {child.icon}
+                          {child.label}
+                        </Link>
+                      )
+                    )}
                   </motion.div>
                 )}
               </motion.div>
@@ -229,7 +235,7 @@ const Header = () => {
                 <div key={item.path}>
                   <Link
                     to={item.path}
-                    className={`px-4 py-2 flex items-center gap-2 rounded-md bengali ${
+                    className={`px-4 py-2 flex items-center gap-2 rounded-md  ${
                       isActive(item.path)
                         ? "bg-primary text-white"
                         : "text-gray-700 hover:bg-gray-100"
@@ -242,25 +248,27 @@ const Header = () => {
                   {/* Show children inline */}
                   {item.children && (
                     <div className="ml-4 border-l pl-2 space-y-1 mt-1">
-                      {item.children.map((child : {
-                        path: string;
-                        label: string;
-                        icon: React.ReactNode;
-                      }) => (
-                        <Link
-                          key={child.path}
-                          to={child.path}
-                          className={`px-3 flex items-center gap-2 py-1 text-sm bengali ${
-                            isActive(child.path)
-                              ? "text-primary font-medium"
-                              : "text-gray-600 hover:text-primary"
-                          }`}
-                          onClick={() => setIsMenuOpen(false)}
-                        >
-                          {child.icon}
-                          {child.label}
-                        </Link>
-                      ))}
+                      {item.children.map(
+                        (child: {
+                          path: string;
+                          label: string;
+                          icon: React.ReactNode;
+                        }) => (
+                          <Link
+                            key={child.path}
+                            to={child.path}
+                            className={`px-3 flex items-center gap-2 py-1 text-sm  ${
+                              isActive(child.path)
+                                ? "text-primary font-medium"
+                                : "text-gray-600 hover:text-primary"
+                            }`}
+                            onClick={() => setIsMenuOpen(false)}
+                          >
+                            {child.icon}
+                            {child.label}
+                          </Link>
+                        )
+                      )}
                     </div>
                   )}
                 </div>
