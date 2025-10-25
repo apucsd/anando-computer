@@ -5,12 +5,14 @@ A modern, responsive business website for **Anando Computer & Air Travels** - pr
 ## Features
 
 ### Core Services
+
 - **Travel & Visa Services** - Flight tickets, Indian visa applications, visa checks, work permit verification
 - **Passport & Registration Services** - E-passport applications, voter ID, birth registration
 - **Government Services** - Police clearance, driving license, TIN/VAT/BIN, land tax
 - **Education & Job Services** - Admissions, job applications, CV creation
 
 ### Website Features
+
 - 🌐 Responsive design for all devices (mobile, tablet, desktop)
 - 🎨 Modern UI with smooth animations using Framer Motion
 - 🔐 Admin panel for content management
@@ -26,11 +28,13 @@ A modern, responsive business website for **Anando Computer & Air Travels** - pr
 ## Tech Stack
 
 ### Frontend Framework
+
 - [React 18](https://reactjs.org/) - UI library
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
 - [Vite](https://vitejs.dev/) - Build tool and dev server
 
 ### Styling & UI
+
 - [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
 - [Ant Design](https://ant.design/) - Enterprise UI components
 - [Framer Motion](https://www.framer.com/motion/) - Animation library
@@ -38,11 +42,13 @@ A modern, responsive business website for **Anando Computer & Air Travels** - pr
 - [React Icons](https://react-icons.github.io/react-icons/) - Additional icons
 
 ### State Management & Routing
+
 - [Redux Toolkit](https://redux-toolkit.js.org/) - State management
 - [Redux Persist](https://github.com/rt2zz/redux-persist) - State persistence
 - [React Router DOM](https://reactrouter.com/) - Client-side routing
 
 ### Additional Libraries
+
 - [Swiper](https://swiperjs.com/) - Touch slider
 - [React Slick](https://react-slick.neostack.com/) - Carousel component
 - [EmailJS](https://www.emailjs.com/) - Email service integration
@@ -52,44 +58,49 @@ A modern, responsive business website for **Anando Computer & Air Travels** - pr
 ## Getting Started
 
 ### Prerequisites
+
 - Node.js (v16 or higher)
 - npm or pnpm package manager
 
 ### Installation
 
 1. **Clone the repository:**
-    ```bash
-    git clone <your-repository-url>
-    cd anando-computer
-    ```
+
+   ```bash
+   git clone https://github.com/apucsd/anando-computer.git
+   cd anando-computer
+   ```
 
 2. **Install dependencies:**
-    ```bash
-    npm install
-    # or
-    pnpm install
-    ```
+
+   ```bash
+   npm install
+   # or
+   pnpm install
+   ```
 
 3. **Start the development server:**
-    ```bash
-    npm run dev
-    # or
-    pnpm dev
-    ```
+
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   ```
 
 4. **Build for production:**
-    ```bash
-    npm run build
-    # or
-    pnpm build
-    ```
+
+   ```bash
+   npm run build
+   # or
+   pnpm build
+   ```
 
 5. **Preview production build:**
-    ```bash
-    npm run preview
-    # or
-    pnpm preview
-    ```
+   ```bash
+   npm run preview
+   # or
+   pnpm preview
+   ```
 
 ## Project Structure
 
@@ -141,6 +152,7 @@ VITE_EMAILJS_PUBLIC_KEY=your_emailjs_public_key
 ## Admin Panel
 
 The website includes a comprehensive admin panel for managing:
+
 - Services and service details
 - Gallery images
 - FAQ sections
@@ -159,6 +171,7 @@ This project can be deployed to various platforms:
 - **Firebase Hosting**
 
 ### Vercel Deployment
+
 ```bash
 npm install -g vercel
 vercel --prod
@@ -177,4 +190,5 @@ vercel --prod
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
-*Built with ❤️ for Anando Computer & Air Travels using React, TypeScript, and modern web technologies.*
+
+_Built with ❤️ for Anando Computer & Air Travels using React, TypeScript, and modern web technologies._
