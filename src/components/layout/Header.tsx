@@ -141,7 +141,7 @@ const Header = () => {
                 আনন্দ কম্পিউটার এন্ড এয়ার ট্রাভেলস
               </h1>
               <p className="text-sm text-gray-600">
-                Anondo Computer & Air Travels
+                Ananda Computer & Air Travels
               </p>
             </div>
           </div>
