@@ -84,19 +84,19 @@ const ServiceDetailsPage = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <a
-                href="tel:+8801234567890"
+                href="tel:01755965524"
                 className="inline-flex items-center gap-2 bg-white text-primary px-6 py-3 rounded-lg font-semibold hover:bg-gray-100"
               >
                 <Phone className="w-5 h-5" /> ফোন করুন
               </a>
               <a
-                href="mailto:info@anandocomputer.com"
+                href="mailto:jonycsdgp@gmail.com"
                 className="inline-flex items-center gap-2 bg-primary-700/30 border border-white/40 text-white px-6 py-3 rounded-lg font-semibold hover:bg-primary-700/50"
               >
                 <Mail className="w-5 h-5" /> ইমেইল করুন
               </a>
               <a
-                href="#contact"
+                href="/contact"
                 className="inline-flex items-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-primary"
               >
                 <MapPin className="w-5 h-5" /> দোকানে আসুন

@@ -4,7 +4,7 @@ import {
   PiHandsPrayingLight,
   PiAirplaneTiltLight,
   PiInfoLight,
-  PiBookOpenTextLight,
+  // PiBookOpenTextLight,
   PiImagesLight,
   PiQuestionLight,
   PiChatsCircleLight,
@@ -17,7 +17,7 @@ import {
   PiUserCheckLight,
 } from "react-icons/pi";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../redux/hooks";
 import { useGetServicesQuery } from "../../redux/feature/all-api/allApi";
 import { TService } from "../../redux/feature/all-api/type";
@@ -25,6 +25,7 @@ import { TService } from "../../redux/feature/all-api/type";
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const location = useLocation();
   const { user } = useAppSelector((state) => state.auth);
@@ -57,11 +58,11 @@ const Header = () => {
       label: "আমাদের সম্পর্কে",
       icon: <PiInfoLight size={20} />,
       children: [
-        {
-          path: "/our-story",
-          label: "আমাদের সম্পর্কে",
-          icon: <PiBookOpenTextLight size={20} />,
-        },
+        // {
+        //   path: "/our-story",
+        //   label: "আমাদের সম্পর্কে",
+        //   icon: <PiBookOpenTextLight size={20} />,
+        // },
         // {
         //   path: "/about/our-team",
         //   label: "আমাদের টিম",
@@ -136,7 +137,7 @@ const Header = () => {
                 <span className="text-white font-bold text-lg">ACA</span>
               </div>
             </div>
-            <div>
+            <div className="cursor-pointer" onClick={() => navigate("/")}>
               <h1 className="text-xl font-medium text-primary">
                 আনন্দ কম্পিউটার এন্ড এয়ার ট্রাভেলস
               </h1>
